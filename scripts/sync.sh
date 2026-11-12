@@ -32,3 +32,4 @@ ssh -i ~/.ssh/id_ed25519_davidhair root@187.127.96.101 "cd /var/www/joomoon && g
 echo "========================================="
 echo "✅ Full Sync (Server + Git) Complete!"
 echo "========================================="
+
