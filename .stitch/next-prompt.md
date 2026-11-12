@@ -9,3 +9,4 @@ An executive, calm business Custom Hair & Wholesale Order Management screen (`or
 - **Typography**: Plus Jakarta Sans & Pretendard for clean English (AU) and Korean bilingual clarity; JetBrains Mono for codes (`MGR-001`, `BUY-002`, `CST-004`), order numbers, and currency amounts (`AUD`, `KRW`, `USD`).
 - **Language Support**: Prominent `EN (AU) | 한국어` language toggle switch in the top header bar.
 - **Components**: 8px rounded buttons, 12px rounded cards with `1px solid #E2E8F0` borders, structured enterprise data tables and custom hair specification forms.
+

@@ -36,3 +36,4 @@ A calm, authoritative, executive B2B portal aesthetic ("Executive Slate & Navy")
 - **Typography**: Plus Jakarta Sans & Pretendard for clean English (AU) and Korean bilingual clarity; JetBrains Mono for codes (`MGR-001`, `BUY-002`), ABN/Tax IDs, and currency figures (`AUD`, `KRW`, `USD`).
 - **Language Support**: Prominent `EN (AU) | 한국어` language switcher in the top header bar.
 - **Components**: 8px rounded buttons, 12px rounded cards with `1px solid #E2E8F0` borders, structured enterprise data tables and multi-section business profile forms.
+
