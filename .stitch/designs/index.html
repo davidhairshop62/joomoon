@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Joomoon — Global Hair &amp; Order Management System</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-background": "#0b1c30",
+            "on-surface-variant": "#43474e",
+            "surface-variant": "#d3e4fe",
+            "primary-fixed": "#d5e3ff",
+            "surface-tint": "#455f87",
+            "on-tertiary-fixed-variant": "#004395",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#8aa4cf",
+            "surface-bright": "#f8f9ff",
+            "inverse-primary": "#adc8f5",
+            "surface-container": "#e5eeff",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#00377c",
+            "on-primary-fixed": "#001c3b",
+            "error": "#ba1a1a",
+            "inverse-surface": "#213145",
+            "on-tertiary-fixed": "#001a42",
+            "on-error": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "inverse-on-surface": "#eaf1ff",
+            "outline": "#74777f",
+            "primary-fixed-dim": "#adc8f5",
+            "on-primary-fixed-variant": "#2d486d",
+            "on-secondary-fixed-variant": "#3f465c",
+            "tertiary": "#002252",
+            "secondary-fixed-dim": "#bec6e0",
+            "primary": "#022448",
+            "surface-container-high": "#dce9ff",
+            "outline-variant": "#c4c6cf",
+            "background": "#f8f9ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "tertiary-fixed-dim": "#adc6ff",
+            "on-primary": "#ffffff",
+            "on-tertiary-container": "#73a2ff",
+            "on-tertiary": "#ffffff",
+            "primary-container": "#1e3a5f",
+            "surface": "#f8f9ff",
+            "surface-dim": "#cbdbf5",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#5c647a",
+            "on-secondary-fixed": "#131b2e",
+            "secondary-fixed": "#dae2fd",
+            "secondary-container": "#dae2fd",
+            "on-error-container": "#93000a",
+            "tertiary-fixed": "#d8e2ff",
+            "secondary": "#565e74"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "space-xl": "2rem",
+            "gutter": "1.5rem"
+          },
+          fontFamily: {
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-code-sm": ["JetBrains Mono"],
+            "label-code-md": ["JetBrains Mono"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "label-caps": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "title-sm": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"]
+          },
+          fontSize: {
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "label-code-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-code-md": ["13px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "display-lg-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "title-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.005em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 1.15rem;
+      vertical-align: middle;
+      display: inline-block;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col font-body-md select-none">
+<!-- Main Container: Full-Height Split View -->
+<main class="flex-1 flex flex-col lg:flex-row w-full min-h-screen">
+<!-- LEFT PANEL: Enterprise Operations & Access Tiers (45% on desktop) -->
+<section class="w-full lg:w-[45%] bg-[#0F172A] text-slate-100 p-8 lg:p-12 flex flex-col justify-between relative overflow-hidden border-r border-slate-800">
+<!-- Subtle Architectural Grid Pattern Overlay -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#FFFFFF 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Top Brand Header -->
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-sm font-bold text-base tracking-tighter">
+            JM
+          </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm tracking-tight font-bold text-white uppercase">JOOMOON</span>
+<span class="font-label-caps text-[10px] tracking-wider text-slate-400 font-semibold uppercase">Global Hair &amp; Order Management System</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-slate-400 mt-2 leading-relaxed">
+          Integrated Order, Shipping &amp; Accounting Platform · 주문·배송·정산 통합 글로벌 OMS
+        </p>
+</div>
+<!-- Enterprise Role Overview Section -->
+<div class="my-8 relative z-10">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-label-caps text-label-caps tracking-wider text-slate-400 font-bold uppercase">
+            Enterprise Access Tiers / 엔터프라이즈 권한 체계
+          </h2>
+<span class="font-label-code-sm text-[10px] text-slate-500 bg-slate-900/80 px-2 py-0.5 rounded border border-slate-700/60">
+            RBAC v2.4
+          </span>
+</div>
+<div class="space-y-3.5">
+<!-- Role 1: HQ Admin -->
+<div class="bg-slate-800/60 hover:bg-slate-800/90 transition duration-150 ease-in-out border border-slate-700/70 rounded-xl p-4.5 p-4">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-blue-400"></span>
+<span class="font-title-sm text-title-sm font-semibold text-white">Manager [HQ Admin]</span>
+<span class="text-xs text-slate-400 font-normal">/ 총괄 관리자</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-blue-300 bg-blue-950/70 border border-blue-800/60 px-2 py-0.5 rounded">
+                ROLE:HQ_ADMIN
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-slate-300 pl-4 border-l border-slate-700/80">
+              Full global visibility, multi-warehouse routing, pricing tier management, and real-time financial reconciliation.
+            </p>
+</div>
+<!-- Role 2: B2B Buyer -->
+<div class="bg-slate-800/60 hover:bg-slate-800/90 transition duration-150 ease-in-out border border-slate-700/70 rounded-xl p-4.5 p-4">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span class="font-title-sm text-title-sm font-semibold text-white">Buyer [Wholesale Salon Partner]</span>
+<span class="text-xs text-slate-400 font-normal">/ 살롱 도매 파트너</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-emerald-300 bg-emerald-950/70 border border-emerald-800/60 px-2 py-0.5 rounded">
+                ROLE:B2B_BUYER
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-slate-300 pl-4 border-l border-slate-700/80">
+              Bulk product ordering, tiered B2B wholesale pricing, automated tax invoices (ABN / KR VAT), and scheduled pallet logistics.
+            </p>
+</div>
+<!-- Role 3: Direct Client -->
+<div class="bg-slate-800/60 hover:bg-slate-800/90 transition duration-150 ease-in-out border border-slate-700/70 rounded-xl p-4.5 p-4">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+<span class="font-title-sm text-title-sm font-semibold text-white">Customer [Direct Client]</span>
+<span class="text-xs text-slate-400 font-normal">/ 주문 고객</span>
+</div>
+<span class="font-label-code-sm text-label-code-sm text-amber-300 bg-amber-950/70 border border-amber-800/60 px-2 py-0.5 rounded">
+                ROLE:CLIENT_DIRECT
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-slate-300 pl-4 border-l border-slate-700/80">
+              Custom hair order tracking, tailored specifications, personal order history, and express delivery updates.
+            </p>
+</div>
+</div>
+</div>
+<!-- Global Operations Footer & Compliance -->
+<div class="relative z-10 border-t border-slate-800/90 pt-5 mt-4">
+<div class="font-label-caps text-label-caps text-slate-400 font-bold uppercase tracking-wider mb-2.5">
+          Global Nodes &amp; Compliance
+        </div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4 text-xs font-body-sm text-slate-300">
+<div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+<span class="font-semibold text-white block">Sydney AU (HQ)</span>
+<span class="text-slate-400 text-[11px] block">Pacific Gateway Hub</span>
+<span class="font-label-code-sm text-[10px] text-slate-400 block mt-1">ABN 48 123 456 789</span>
+</div>
+<div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+<span class="font-semibold text-white block">Seoul KR (DC)</span>
+<span class="text-slate-400 text-[11px] block">Gangnam Logistics</span>
+<span class="font-label-code-sm text-[10px] text-slate-400 block mt-1">등록 105-86-12345</span>
+</div>
+<div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+<span class="font-semibold text-white block">Los Angeles US</span>
+<span class="text-slate-400 text-[11px] block">NA Cross-Dock Node</span>
+<span class="font-label-code-sm text-[10px] text-slate-400 block mt-1">EDI HUB 90021</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-slate-300 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700">
+<span class="material-symbols-outlined text-[14px] text-emerald-400">verified_user</span>
+            ISO/IEC 27001 Certified
+          </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-slate-300 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700">
+<span class="material-symbols-outlined text-[14px] text-blue-400">lock</span>
+            256-Bit SSL Encryption
+          </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-medium text-slate-300 bg-slate-800/80 px-2.5 py-1 rounded border border-slate-700">
+<span class="material-symbols-outlined text-[14px] text-amber-400">security</span>
+            SOC2 Type II Ready
+          </span>
+</div>
+</div>
+</section>
+<!-- RIGHT PANEL: Authentication Workspace & Demo Switcher (55% on desktop) -->
+<section class="w-full lg:w-[55%] bg-[#F8FAFC] p-6 lg:p-10 flex flex-col justify-between items-center relative overflow-y-auto">
+<!-- Top Utility Header Bar -->
+<div class="w-full max-w-md flex flex-wrap justify-between items-center gap-3 mb-6">
+<!-- Live Transit Status Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-white border border-[#E2E8F0] rounded-full shadow-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-body-sm text-[11px] font-medium text-slate-700">
+            Operational — AU-KR Transit Gateways Active
+          </span>
+</div>
+<!-- Prominent Language Toggle Pill -->
+<div class="inline-flex items-center bg-white border border-[#E2E8F0] rounded-lg p-0.5 shadow-sm text-xs font-medium" role="tablist">
+<button class="px-2.5 py-1 rounded bg-[#0F172A] text-white transition font-medium" id="lang-en" onclick="switchLanguage('EN')" type="button">
+            EN (AU)
+          </button>
+<button class="px-2.5 py-1 rounded text-slate-600 hover:text-slate-900 transition font-medium" id="lang-ko" onclick="switchLanguage('KO')" type="button">
+            한국어
+          </button>
+</div>
+</div>
+<!-- Main Login Card -->
+<div class="w-full max-w-md bg-white border border-[#E2E8F0] rounded-xl p-7 lg:p-8 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05)]">
+<!-- Header -->
+<div class="mb-6">
+<div class="flex items-center gap-2 text-[#1E3A5F] mb-1">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+<h1 class="font-headline-sm text-headline-sm font-semibold text-slate-900" id="card-title">
+              Sign In to Portal / 포털 로그인
+            </h1>
+</div>
+<p class="font-body-sm text-body-sm text-slate-500" id="card-subtitle">
+            Enter your enterprise credentials to access your regional workspace.
+          </p>
+</div>
+<!-- Form Elements -->
+<form class="space-y-4" onsubmit="event.preventDefault(); triggerSignIn();">
+<!-- Login ID Input Field -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="font-title-sm text-title-sm text-slate-800 font-semibold flex items-center gap-1" for="login_id">
+<span>Login ID / Username</span>
+<span class="text-xs font-normal text-slate-500">(아이디)</span>
+</label>
+<span class="font-label-code-sm text-[10px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
+                Format: [role]_[region]
+              </span>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-slate-400 text-lg">account_circle</span>
+</div>
+<input class="w-full pl-9 pr-3 py-2 h-10 bg-white border border-[#CBD5E1] rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/15 font-label-code-md transition" id="login_id" name="login_id" placeholder="e.g. admin or buyer_sydney" required="" type="text" value="admin"/>
+</div>
+</div>
+<!-- Password Input Field -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="font-title-sm text-title-sm text-slate-800 font-semibold flex items-center gap-1" for="password">
+<span>Password</span>
+<span class="text-xs font-normal text-slate-500">(비밀번호)</span>
+</label>
+<a class="font-body-sm text-xs text-[#1E3A5F] hover:underline font-medium" href="#">
+                Forgot Password?
+              </a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-slate-400 text-lg">key</span>
+</div>
+<input class="w-full pl-9 pr-10 py-2 h-10 bg-white border border-[#CBD5E1] rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#1E3A5F] focus:ring-2 focus:ring-[#1E3A5F]/15 font-label-code-md transition" id="password" name="password" required="" type="password" value="••••••••••••"/>
+<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-lg" id="pwd-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Terminal Options Row -->
+<div class="pt-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-slate-600">
+<label class="inline-flex items-center gap-2 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-[#1E3A5F] border-slate-300 focus:ring-[#1E3A5F]" type="checkbox"/>
+<span>Remember this terminal (30 days)</span>
+</label>
+<label class="inline-flex items-center gap-2 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-[#1E3A5F] border-slate-300 focus:ring-[#1E3A5F]" type="checkbox"/>
+<span class="text-slate-700 font-medium">Enforce MFA</span>
+</label>
+</div>
+<!-- Primary Submit Button -->
+<button class="w-full h-11 bg-[#1E3A5F] hover:bg-[#152A45] text-white font-title-sm text-title-sm font-medium tracking-wide rounded-lg flex items-center justify-center gap-2 transition duration-150 shadow-sm mt-2" id="btn-submit" type="submit">
+<span>Sign In to Portal / 포털 로그인</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</form>
+<!-- Secondary Support Helpline -->
+<div class="mt-5 pt-4 border-t border-[#E2E8F0] text-center">
+<p class="font-body-sm text-[11px] text-slate-500 leading-normal">
+            Need wholesale onboarding? Contact B2B Operations Support<br/>
+<span class="font-label-code-sm text-slate-700 font-medium">AU +61 2 8000 1234</span> · 
+            <span class="font-label-code-sm text-slate-700 font-medium">KR +82 2 555 8901</span>
+</p>
+</div>
+</div>
+<!-- Quick Demo Account Switcher Card -->
+<div class="w-full max-w-md mt-4 bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-1.5 text-slate-800 font-label-caps text-[11px] uppercase tracking-wider font-bold">
+<span class="material-symbols-outlined text-slate-500 text-[16px]">switch_account</span>
+<span>Quick Demo Account Switcher / 데모 계정 간편 전환</span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-400">Instant Fill</span>
+</div>
+<p class="font-body-sm text-[11px] text-slate-500 mb-3">
+          Click an account below to populate credentials and test role permissions:
+        </p>
+<!-- Interactive Account Pills Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="demo-grid">
+<!-- Preset 1: Admin HQ -->
+<button class="demo-preset-btn active-preset flex flex-col text-left p-2 rounded-lg border border-[#1E3A5F] bg-[#1E3A5F]/5 transition group" onclick="selectPreset('admin', 'Manager [HQ Admin]', this)" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="font-title-sm text-xs font-semibold text-slate-900 group-hover:text-[#1E3A5F]">Manager (admin)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-500">HQ Admin · Global Operations</span>
+</button>
+<!-- Preset 2: Buyer AU -->
+<button class="demo-preset-btn flex flex-col text-left p-2 rounded-lg border border-[#CBD5E1] bg-white hover:bg-slate-50 transition group" onclick="selectPreset('buyer_sydney', 'Buyer AU (Wholesale)', this)" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="font-title-sm text-xs font-semibold text-slate-900 group-hover:text-[#1E3A5F]">Buyer AU (buyer_sydney)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-500">Wholesale Partner · Sydney</span>
+</button>
+<!-- Preset 3: Buyer KR -->
+<button class="demo-preset-btn flex flex-col text-left p-2 rounded-lg border border-[#CBD5E1] bg-white hover:bg-slate-50 transition group" onclick="selectPreset('buyer_seoul', 'Buyer KR (Wholesale)', this)" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="font-title-sm text-xs font-semibold text-slate-900 group-hover:text-[#1E3A5F]">Buyer KR (buyer_seoul)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-500">Wholesale Partner · Seoul</span>
+</button>
+<!-- Preset 4: Customer AU -->
+<button class="demo-preset-btn flex flex-col text-left p-2 rounded-lg border border-[#CBD5E1] bg-white hover:bg-slate-50 transition group" onclick="selectPreset('cust_oliver', 'Customer AU (Direct)', this)" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="font-title-sm text-xs font-semibold text-slate-900 group-hover:text-[#1E3A5F]">Customer AU (cust_oliver)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-500">Direct Client · Melbourne</span>
+</button>
+<!-- Preset 5: Customer KR (Span 2 on sm) -->
+<button class="demo-preset-btn sm:col-span-2 flex flex-col text-left p-2 rounded-lg border border-[#CBD5E1] bg-white hover:bg-slate-50 transition group" onclick="selectPreset('cust_minsoo', 'Customer KR (Direct)', this)" type="button">
+<div class="flex items-center justify-between w-full">
+<span class="font-title-sm text-xs font-semibold text-slate-900 group-hover:text-[#1E3A5F]">Customer KR (cust_minsoo)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+</div>
+<span class="font-label-code-sm text-[10px] text-slate-500">Direct Client · Busan Logistics Gateway</span>
+</button>
+</div>
+<div class="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-600" id="selection-banner">
+<span class="font-medium">Active Preset: <span class="text-[#1E3A5F] font-semibold" id="active-role-text">Manager [HQ Admin]</span></span>
+<span class="font-label-code-sm text-[10px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Session Armed</span>
+</div>
+</div>
+<!-- Right Footer Legal & Compliance Notice -->
+<div class="w-full max-w-md text-center mt-6 text-slate-500 text-[11px] font-body-sm leading-relaxed">
+<p>Joomoon Global OMS v3.4.2 · Enterprise Security &amp; AU-KR Cross-Border Trade Compliance</p>
+<p class="font-label-code-sm text-[10px] text-slate-400 mt-0.5">ABN 48 123 456 789 · Licensed Wholesale System</p>
+</div>
+</section>
+</main>
+<!-- Interactive Logic for Demo Switcher, Language Switch, and Input -->
+<script>
+    function selectPreset(username, roleName, element) {
+      // Set input values
+      const loginInput = document.getElementById('login_id');
+      loginInput.value = username;
+      
+      // Update active text display
+      document.getElementById('active-role-text').innerText = roleName;
+
+      // Update button styling across presets
+      const allButtons = document.querySelectorAll('.demo-preset-btn');
+      allButtons.forEach(btn => {
+        btn.classList.remove('border-[#1E3A5F]', 'bg-[#1E3A5F]/5');
+        btn.classList.add('border-[#CBD5E1]', 'bg-white');
+        const indicator = btn.querySelector('.rounded-full');
+        if (indicator) {
+          indicator.classList.remove('bg-blue-600');
+          indicator.classList.add('bg-slate-300');
+        }
+      });
+
+      // Highlight active button
+      element.classList.remove('border-[#CBD5E1]', 'bg-white');
+      element.classList.add('border-[#1E3A5F]', 'bg-[#1E3A5F]/5');
+      const activeIndicator = element.querySelector('.rounded-full');
+      if (activeIndicator) {
+        activeIndicator.classList.remove('bg-slate-300');
+        activeIndicator.classList.add('bg-blue-600');
+      }
+
+      // Visual flash animation on input
+      loginInput.classList.add('ring-2', 'ring-[#1E3A5F]');
+      setTimeout(() => {
+        loginInput.classList.remove('ring-2', 'ring-[#1E3A5F]');
+      }, 300);
+    }
+
+    function togglePasswordVisibility() {
+      const pwdField = document.getElementById('password');
+      const pwdIcon = document.getElementById('pwd-icon');
+      if (pwdField.type === 'password') {
+        pwdField.type = 'text';
+        pwdIcon.innerText = 'visibility_off';
+      } else {
+        pwdField.type = 'password';
+        pwdIcon.innerText = 'visibility';
+      }
+    }
+
+    function switchLanguage(lang) {
+      const btnEn = document.getElementById('lang-en');
+      const btnKo = document.getElementById('lang-ko');
+      const cardTitle = document.getElementById('card-title');
+      const cardSub = document.getElementById('card-subtitle');
+      const btnSubmit = document.getElementById('btn-submit');
+
+      if (lang === 'KO') {
+        btnKo.className = 'px-2.5 py-1 rounded bg-[#0F172A] text-white transition font-medium';
+        btnEn.className = 'px-2.5 py-1 rounded text-slate-600 hover:text-slate-900 transition font-medium';
+        cardTitle.innerText = '포털 시스템 로그인 (Sign In)';
+        cardSub.innerText = '지역별 엔터프라이즈 통합 워크스페이스에 접속하기 위해 인증 정보를 입력하세요.';
+        btnSubmit.innerHTML = '<span>포털 로그인 승인 →</span>';
+      } else {
+        btnEn.className = 'px-2.5 py-1 rounded bg-[#0F172A] text-white transition font-medium';
+        btnKo.className = 'px-2.5 py-1 rounded text-slate-600 hover:text-slate-900 transition font-medium';
+        cardTitle.innerText = 'Sign In to Portal / 포털 로그인';
+        cardSub.innerText = 'Enter your enterprise credentials to access your regional workspace.';
+        btnSubmit.innerHTML = '<span>Sign In to Portal / 포털 로그인</span><span class="material-symbols-outlined text-base">arrow_forward</span>';
+      }
+    }
+
+    function triggerSignIn() {
+      const btn = document.getElementById('btn-submit');
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-base">sync</span><span>Verifying AU-KR Security Tokens...</span>';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined text-base">check_circle</span><span>Authenticated · Routing Workspace...</span>';
+        btn.classList.remove('bg-[#1E3A5F]');
+        btn.classList.add('bg-emerald-700');
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+          btn.classList.remove('bg-emerald-700');
+          btn.classList.add('bg-[#1E3A5F]');
+          btn.disabled = false;
+        }, 2200);
+      }, 1000);
+    }
+  </script>
+</body></html>

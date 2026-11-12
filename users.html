@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html class="light" lang="ko-KR">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Joomoon OMS — Users & Profile Management</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-[#1E293B] antialiased min-h-screen flex">
+  <!-- LEFT FIXED EXECUTIVE SIDEBAR (#0F172A) -->
+  <aside class="w-[268px] bg-[#0F172A] text-slate-200 flex flex-col justify-between shrink-0 min-h-screen border-r border-slate-800">
+    <div>
+      <div class="p-6 border-b border-slate-800/80">
+        <a href="portal.html" class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-[#1E3A5F] border border-slate-600/60 flex items-center justify-center text-white font-bold text-sm">
+            JM
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base font-bold tracking-tight text-white">JOOMOON</span>
+              <span id="sidebarRoleBadge" class="font-mono-code text-[10px] px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">Manager</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-0.5" data-i18n="brandSubtitle">Global Hair & Order System</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="px-4 py-4 border-b border-slate-800/80 bg-slate-900/50">
+        <div class="flex items-center justify-between">
+          <span id="sidebarUserCode" class="font-mono-code text-xs font-semibold text-blue-300">-</span>
+          <span id="sidebarCountryCurrency" class="font-mono-code text-[11px] text-slate-400">-</span>
+        </div>
+        <div id="sidebarDisplayName" class="text-sm font-semibold text-white truncate mt-1">Loading...</div>
+        <div id="sidebarSubName" class="text-xs text-slate-400 truncate">-</div>
+      </div>
+
+      <div class="p-4">
+        <div id="sidebarMenuHeader" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-3 mb-2">
+          ROLE NAVIGATION
+        </div>
+        <nav id="sidebarNavList" class="space-y-1"></nav>
+      </div>
+    </div>
+
+    <div class="p-4 border-t border-slate-800 bg-slate-900/60 space-y-2.5">
+      <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400" data-i18n="btnSwitchRolePreview">Switch Sample Account</div>
+      <select id="quickAccountSelect" onchange="handleQuickSwitch(this.value)"
+        class="w-full text-xs bg-slate-800 border border-slate-700 text-slate-100 rounded-lg px-2.5 py-2 font-mono-code">
+      </select>
+      <button type="button" onclick="logout()"
+        class="w-full py-2 px-3 rounded-lg bg-slate-800 hover:bg-red-950/70 border border-slate-700 hover:border-red-800 text-slate-200 hover:text-red-200 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors">
+        <span class="material-symbols-outlined text-[16px]">logout</span>
+        <span data-i18n="btnSignOut">Sign Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN WORKSPACE AREA -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- Top Header -->
+    <header class="h-16 bg-white border-b border-[#E2E8F0] px-6 lg:px-8 flex items-center justify-between gap-4 sticky top-0 z-20">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <a href="portal.html" class="text-xs font-medium text-slate-500 hover:text-[#1E3A5F]">Portal</a>
+        <span class="text-slate-300">/</span>
+        <span id="headerPageTitle" class="text-sm font-bold text-[#0F172A] truncate">Users & Profile Management</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="btnAddNewTop" type="button" onclick="startCreateNewUser()"
+          class="hidden items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#1E3A5F] hover:bg-[#0F172A] text-white text-xs font-semibold shadow-sm transition-colors">
+          <span class="material-symbols-outlined text-[16px]">person_add</span>
+          <span data-i18n="btnNewUser">+ Add New User</span>
+        </button>
+
+        <div class="inline-flex items-center bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg p-0.5">
+          <button id="langBtnEn" type="button" onclick="switchLang('en-AU')" class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">
+            🇦🇺 EN (AU)
+          </button>
+          <button id="langBtnKo" type="button" onclick="switchLang('ko-KR')" class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">
+            🇰🇷 한국어
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="p-6 lg:p-8 max-w-[1600px] w-full mx-auto space-y-6">
+      <!-- Page Banner -->
+      <section class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-sm flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 id="pageMainHeading" class="text-xl font-bold text-[#0F172A] tracking-tight">Users Management</h1>
+          <p id="pageSubHeading" class="text-xs text-[#64748B] mt-1"></p>
+        </div>
+        <div id="statusToast" class="hidden px-4 py-2 rounded-lg text-xs font-semibold border"></div>
+      </section>
+
+      <!-- Dual-Pane Layout for Manager | Full-Width Editor for Buyer & Customer -->
+      <div id="workspaceGrid" class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        <!-- LEFT PANE: DIRECTORY TABLE (Visible ONLY for Manager) -->
+        <section id="managerDirectoryPane" class="hidden xl:col-span-5 bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-sm space-y-4">
+          <!-- Role Tabs -->
+          <div class="flex flex-wrap gap-1.5 border-b border-slate-200 pb-3" id="roleFilterTabs">
+            <button type="button" onclick="setRoleFilter('')" data-role-tab="" class="px-3 py-1.5 rounded-lg text-xs font-semibold">All</button>
+            <button type="button" onclick="setRoleFilter('Manager')" data-role-tab="Manager" class="px-3 py-1.5 rounded-lg text-xs font-semibold">Manager</button>
+            <button type="button" onclick="setRoleFilter('Buyer')" data-role-tab="Buyer" class="px-3 py-1.5 rounded-lg text-xs font-semibold">Buyer</button>
+            <button type="button" onclick="setRoleFilter('Customer')" data-role-tab="Customer" class="px-3 py-1.5 rounded-lg text-xs font-semibold">Customer</button>
+          </div>
+
+          <!-- Search Box -->
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-[18px]">search</span>
+            <input id="searchInput" type="text" oninput="handleSearchInput()"
+              class="w-full pl-9 pr-3 py-2 text-xs bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg focus:outline-none focus:bg-white focus:border-[#1E3A5F]"
+              data-i18n-placeholder="searchPlaceholder" placeholder="Search..."/>
+          </div>
+
+          <!-- User List Cards -->
+          <div id="userDirectoryList" class="space-y-2 max-h-[760px] overflow-y-auto pr-1"></div>
+        </section>
+
+        <!-- RIGHT PANE: COMPREHENSIVE 53-COLUMN FORM EDITOR -->
+        <section id="profileEditorPane" class="xl:col-span-12 bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-6 border-b border-slate-200">
+            <div>
+              <div class="flex items-center gap-2">
+                <span id="editorModeBadge" class="font-mono-code text-xs font-bold px-2.5 py-0.5 rounded bg-[#1E3A5F] text-white">EDIT</span>
+                <h2 id="editorHeading" class="text-lg font-bold text-[#0F172A]">Profile Editor</h2>
+              </div>
+              <p id="editorReadonlyNote" class="text-xs text-amber-700 mt-1 hidden" data-i18n="readonlyNotice"></p>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button type="button" id="btnDeleteUser" onclick="deleteCurrentUser()"
+                class="hidden px-3.5 py-2 rounded-lg border border-red-300 bg-white hover:bg-red-50 text-red-600 text-xs font-semibold transition-colors">
+                <span data-i18n="btnDeleteUser">Delete User</span>
+              </button>
+              <button type="submit" form="userProfileForm"
+                class="px-5 py-2.5 rounded-lg bg-[#1E3A5F] hover:bg-[#0F172A] text-white text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px]">save</span>
+                <span data-i18n="btnSaveChanges">Save Changes</span>
+              </button>
+            </div>
+          </div>
+
+          <form id="userProfileForm" class="space-y-7">
+            <input type="hidden" name="id" id="field_id"/>
+
+            <!-- SECTION 1: Account & Role Identification -->
+            <div class="space-y-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-[#1E3A5F] border-b border-slate-100 pb-2" data-i18n="sec1Title">
+                1. Account & Role Identification
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_user_code">User Code</label>
+                  <input type="text" name="user_code" id="field_user_code" data-mgr-only="1" placeholder="Auto (e.g. BUY-004)"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_user_type">User Type</label>
+                  <select name="user_type" id="field_user_type" data-mgr-only="1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-semibold">
+                    <option value="Buyer">Buyer (Default)</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Customer">Customer</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_login_id">Login ID *</label>
+                  <input type="text" name="login_id" id="field_login_id" data-mgr-only="1" required
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_password">New Password</label>
+                  <input type="password" name="password" id="field_password" placeholder="••••••••"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_status">Status</label>
+                  <select name="status" id="field_status" data-mgr-only="1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg">
+                    <option value="active">active</option>
+                    <option value="pending">pending</option>
+                    <option value="inactive">inactive</option>
+                    <option value="suspended">suspended</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 2: Company & Business Registration -->
+            <div class="space-y-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-[#1E3A5F] border-b border-slate-100 pb-2" data-i18n="sec2Title">
+                2. Company & Business Registration
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_company_name">Company Name</label>
+                  <input type="text" name="company_name" id="field_company_name"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_business_number">Business Number (ABN / BRN)</label>
+                  <input type="text" name="business_number" id="field_business_number"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_corporate_number">Corporate Number</label>
+                  <input type="text" name="corporate_number" id="field_corporate_number"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_ceo_name">CEO / Representative Name</label>
+                  <input type="text" name="ceo_name" id="field_ceo_name"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_business_type">Business Type</label>
+                  <input type="text" name="business_type" id="field_business_type"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_business_item">Business Item</label>
+                  <input type="text" name="business_item" id="field_business_item"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 3: Contact Person & Communication -->
+            <div class="space-y-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-[#1E3A5F] border-b border-slate-100 pb-2" data-i18n="sec3Title">
+                3. Contact Person & Representative
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_manager_name">Contact / Customer Name</label>
+                  <input type="text" name="manager_name" id="field_manager_name"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_manager_department">Department</label>
+                  <input type="text" name="manager_department" id="field_manager_department"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_manager_position">Position / Title</label>
+                  <input type="text" name="manager_position" id="field_manager_position"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_email">Primary Email</label>
+                  <input type="email" name="email" id="field_email"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_phone">Main Phone</label>
+                  <input type="text" name="phone" id="field_phone"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_mobile">Mobile Phone</label>
+                  <input type="text" name="mobile" id="field_mobile"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_fax">Fax</label>
+                  <input type="text" name="fax" id="field_fax"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 4: Shipping Address (Address 1, Address 2, City/District, State/Province, Country, Postal Code) -->
+            <div id="section-shipping" class="space-y-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-[#1E3A5F] border-b border-slate-100 pb-2" data-i18n="sec4Title">
+                4. Shipping Address (Address 1, Address 2, City/District, State, Country, Postcode)
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="lg:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_recipient_name">Recipient Name</label>
+                  <input type="text" name="recipient_name" id="field_recipient_name"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div class="lg:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_recipient_phone">Recipient Phone</label>
+                  <input type="text" name="recipient_phone" id="field_recipient_phone"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div class="lg:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_address1">Address Line 1</label>
+                  <input type="text" name="address1" id="field_address1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div class="lg:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_address2">Address Line 2</label>
+                  <input type="text" name="address2" id="field_address2"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_city_district">City / District (구/군)</label>
+                  <input type="text" name="city_district" id="field_city_district"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_state_province">State / Province (도/주)</label>
+                  <input type="text" name="state_province" id="field_state_province"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_country">Country (국가)</label>
+                  <select name="country" id="field_country"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code">
+                    <option value="AU">AU (Australia)</option>
+                    <option value="KR">KR (South Korea)</option>
+                    <option value="US">US (United States)</option>
+                    <option value="ID">ID (Indonesia)</option>
+                    <option value="JP">JP (Japan)</option>
+                    <option value="GB">GB (United Kingdom)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_postal_code">Postal Code (우편번호)</label>
+                  <input type="text" name="postal_code" id="field_postal_code"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 5: Order & Shipping Preferences -->
+            <div class="space-y-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-[#1E3A5F] border-b border-slate-100 pb-2" data-i18n="sec5Title">
+                5. Order & Shipping Preferences
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_price_tier">Price Tier</label>
+                  <select name="price_tier" id="field_price_tier" data-mgr-only="1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code">
+                    <option value="retail">retail</option>
+                    <option value="wholesale">wholesale</option>
+                    <option value="partner_a">partner_a</option>
+                    <option value="vip">vip</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_discount_rate">Discount Rate (%)</label>
+                  <input type="number" step="0.01" name="discount_rate" id="field_discount_rate" data-mgr-only="1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_preferred_carrier">Preferred Carrier</label>
+                  <input type="text" name="preferred_carrier" id="field_preferred_carrier"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_shipping_account_no">Carrier Account No.</label>
+                  <input type="text" name="shipping_account_no" id="field_shipping_account_no"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_shipping_fee_type">Shipping Fee Type</label>
+                  <select name="shipping_fee_type" id="field_shipping_fee_type"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg">
+                    <option value="prepaid">prepaid (선불)</option>
+                    <option value="collect">collect (착불)</option>
+                    <option value="free">free (무료)</option>
+                    <option value="conditional">conditional (조건부무료)</option>
+                  </select>
+                </div>
+                <div class="lg:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_shipping_memo">Shipping Instructions / Memo</label>
+                  <textarea rows="2" name="shipping_memo" id="field_shipping_memo"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"></textarea>
+                </div>
+                <div class="lg:col-span-3">
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_order_memo">Order Spec / Special Memo</label>
+                  <textarea rows="2" name="order_memo" id="field_order_memo"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 6: Accounting, Tax Invoice & Bank Details -->
+            <div id="section-accounting" class="space-y-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-[#1E3A5F] border-b border-slate-100 pb-2" data-i18n="sec6Title">
+                6. Accounting, Tax Invoice & Bank Details
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_tax_invoice_email">Tax Invoice Email</label>
+                  <input type="email" name="tax_invoice_email" id="field_tax_invoice_email"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_accounting_manager_name">Accounting Contact Name</label>
+                  <input type="text" name="accounting_manager_name" id="field_accounting_manager_name"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_accounting_manager_phone">Accounting Contact Phone</label>
+                  <input type="text" name="accounting_manager_phone" id="field_accounting_manager_phone"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_currency">Currency</label>
+                  <select name="currency" id="field_currency"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code">
+                    <option value="AUD">AUD (A$)</option>
+                    <option value="KRW">KRW (₩)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="IDR">IDR (Rp)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_payment_terms">Payment Terms</label>
+                  <select name="payment_terms" id="field_payment_terms" data-mgr-only="1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code">
+                    <option value="prepaid">prepaid</option>
+                    <option value="cod">cod</option>
+                    <option value="net15">net15</option>
+                    <option value="net30">net30</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_payment_method">Payment Method</label>
+                  <select name="payment_method" id="field_payment_method"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg">
+                    <option value="bank_transfer">bank_transfer</option>
+                    <option value="card">card</option>
+                    <option value="paypal">paypal</option>
+                    <option value="cash">cash</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_tax_type">Tax Type</label>
+                  <select name="tax_type" id="field_tax_type" data-mgr-only="1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg">
+                    <option value="taxable">taxable (과세)</option>
+                    <option value="zero_rated">zero_rated (영세율/수출)</option>
+                    <option value="exempt">exempt (면세)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_credit_limit">Credit Limit</label>
+                  <input type="number" step="0.01" name="credit_limit" id="field_credit_limit" data-mgr-only="1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_outstanding_balance">Outstanding Balance</label>
+                  <input type="number" step="0.01" name="outstanding_balance" id="field_outstanding_balance" data-mgr-only="1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_deposit_balance">Deposit Balance</label>
+                  <input type="number" step="0.01" name="deposit_balance" id="field_deposit_balance" data-mgr-only="1"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_bank_name">Bank Name</label>
+                  <input type="text" name="bank_name" id="field_bank_name"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_bank_account_number">Bank Account Number</label>
+                  <input type="text" name="bank_account_number" id="field_bank_account_number"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_bank_account_holder">Account Holder</label>
+                  <input type="text" name="bank_account_holder" id="field_bank_account_holder"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="f_swift_code">SWIFT / BIC / BSB</label>
+                  <input type="text" name="swift_code" id="field_swift_code"
+                    class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono-code"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 7: Admin Internal Memo (Manager Only) -->
+            <div id="adminMemoSection" class="space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-[#1E3A5F] border-b border-slate-100 pb-2" data-i18n="sec7Title">
+                7. Internal Admin Memo (Manager Only)
+              </h3>
+              <textarea rows="2" name="admin_memo" id="field_admin_memo"
+                class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg"></textarea>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    let currentUser = null;
+    let isManager = false;
+    let allUsers = [];
+    let counts = { All: 0, Manager: 0, Buyer: 0, Customer: 0 };
+    let activeRoleFilter = '';
+    let selectedUserId = null;
+
+    const allFormFields = [
+      'id', 'user_code', 'user_type', 'login_id', 'status',
+      'company_name', 'business_number', 'corporate_number', 'business_type', 'business_item', 'ceo_name',
+      'manager_name', 'manager_department', 'manager_position', 'phone', 'mobile', 'fax', 'email',
+      'recipient_name', 'recipient_phone', 'address1', 'address2', 'city_district', 'state_province', 'country', 'postal_code',
+      'price_tier', 'discount_rate', 'preferred_carrier', 'shipping_account_no', 'shipping_fee_type', 'shipping_memo', 'order_memo',
+      'tax_invoice_email', 'accounting_manager_name', 'accounting_manager_phone', 'payment_terms', 'payment_method', 'currency',
+      'tax_type', 'credit_limit', 'outstanding_balance', 'deposit_balance',
+      'bank_name', 'bank_account_number', 'bank_account_holder', 'swift_code', 'admin_memo'
+    ];
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('statusToast');
+      t.textContent = msg;
+      t.className = isError
+        ? 'px-4 py-2 rounded-lg text-xs font-semibold border bg-red-50 text-red-700 border-red-200'
+        : 'px-4 py-2 rounded-lg text-xs font-semibold border bg-emerald-50 text-emerald-700 border-emerald-200';
+      t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 4000);
+    }
+
+    function switchLang(lang) {
+      JoomoonApp.setLang(lang);
+      renderUI();
+    }
+
+    async function logout() {
+      await fetch('api_auth.php?action=logout', { method: 'POST' });
+      window.location.href = 'index.html';
+    }
+
+    async function handleQuickSwitch(loginId) {
+      if (!loginId) return;
+      const res = await fetch('api_auth.php?action=quick_login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ login_id: loginId })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        window.location.href = 'users.html';
+      }
+    }
+
+    function setRoleFilter(role) {
+      activeRoleFilter = role;
+      fetchUsersList();
+    }
+
+    function handleSearchInput() {
+      clearTimeout(window._searchTimer);
+      window._searchTimer = setTimeout(() => fetchUsersList(), 200);
+    }
+
+    function renderRoleTabs() {
+      const buttons = document.querySelectorAll('#roleFilterTabs button');
+      const labels = {
+        '': `${JoomoonApp.t('tabAll')} (${counts.All || 0})`,
+        'Manager': `Manager (${counts.Manager || 0})`,
+        'Buyer': `Buyer (${counts.Buyer || 0})`,
+        'Customer': `Customer (${counts.Customer || 0})`
+      };
+      buttons.forEach(btn => {
+        const r = btn.getAttribute('data-role-tab');
+        btn.textContent = labels[r] || r;
+        btn.className = (r === activeRoleFilter)
+          ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1E3A5F] text-white'
+          : 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200';
+      });
+    }
+
+    function renderDirectoryList() {
+      const listEl = document.getElementById('userDirectoryList');
+      if (!allUsers.length) {
+        listEl.innerHTML = '<div class="text-xs text-slate-400 py-6 text-center">No matching users found.</div>';
+        return;
+      }
+
+      listEl.innerHTML = allUsers.map(u => {
+        const isSelected = Number(u.id) === Number(selectedUserId);
+        const borderCls = isSelected
+          ? 'border-2 border-[#1E3A5F] bg-blue-50/30'
+          : 'border border-slate-200 hover:border-slate-400 bg-[#F8FAFC]';
+        const badgeCls = u.user_type === 'Manager'
+          ? 'bg-[#1E3A5F] text-white'
+          : (u.user_type === 'Buyer' ? 'bg-teal-700 text-white' : 'bg-slate-600 text-white');
+
+        return `
+          <div onclick="selectUserForEdit(${u.id})" class="p-3.5 rounded-xl cursor-pointer transition-all ${borderCls}">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono-code text-[10px] font-semibold px-2 py-0.5 rounded ${badgeCls}">${u.user_type}</span>
+                <span class="font-mono-code text-xs font-bold text-[#0F172A]">${u.user_code}</span>
+                <span class="font-mono-code text-[11px] text-slate-500">(${u.login_id})</span>
+              </div>
+              <span class="text-xs font-medium text-slate-600">${JoomoonApp.countryFlag(u.country)}</span>
+            </div>
+            <div class="text-sm font-bold text-[#0F172A] mt-1.5 truncate">
+              ${u.company_name || u.manager_name || u.login_id}
+            </div>
+            <div class="flex items-center justify-between text-xs text-slate-500 mt-1">
+              <span class="truncate">${u.manager_name || '-'} · ${u.city_district || ''}, ${u.state_province || ''}</span>
+              <span class="font-mono-code text-[11px] uppercase text-[#1E3A5F] font-semibold">${u.price_tier} (${u.currency})</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function populateForm(u) {
+      selectedUserId = u ? u.id : 0;
+      document.getElementById('field_password').value = '';
+
+      allFormFields.forEach(f => {
+        const el = document.getElementById('field_' + f);
+        if (!el) return;
+        el.value = (u && u[f] !== null && u[f] !== undefined) ? u[f] : '';
+      });
+
+      if (!u || !u.id) {
+        // Creating new user defaults
+        document.getElementById('field_id').value = '';
+        document.getElementById('field_user_type').value = 'Buyer';
+        document.getElementById('field_status').value = 'active';
+        document.getElementById('field_country').value = 'AU';
+        document.getElementById('field_currency').value = 'AUD';
+        document.getElementById('field_price_tier').value = 'wholesale';
+        document.getElementById('field_shipping_fee_type').value = 'prepaid';
+        document.getElementById('field_payment_terms').value = 'prepaid';
+        document.getElementById('field_payment_method').value = 'bank_transfer';
+        document.getElementById('field_tax_type').value = 'taxable';
+        document.getElementById('editorModeBadge').textContent = 'NEW USER';
+        document.getElementById('editorHeading').textContent = JoomoonApp.t('btnNewUser');
+        document.getElementById('btnDeleteUser').classList.add('hidden');
+      } else {
+        document.getElementById('editorModeBadge').textContent = u.user_code || ('ID #' + u.id);
+        document.getElementById('editorHeading').textContent = `${u.company_name || u.manager_name} (${u.user_type})`;
+        if (isManager && Number(u.id) !== Number(currentUser.id)) {
+          document.getElementById('btnDeleteUser').classList.remove('hidden');
+        } else {
+          document.getElementById('btnDeleteUser').classList.add('hidden');
+        }
+      }
+
+      // Apply field permissions (Manager vs Buyer/Customer)
+      document.querySelectorAll('[data-mgr-only="1"]').forEach(el => {
+        el.disabled = !isManager;
+        if (!isManager) {
+          el.classList.add('bg-slate-100', 'text-slate-500', 'cursor-not-allowed');
+        } else {
+          el.classList.remove('bg-slate-100', 'text-slate-500', 'cursor-not-allowed');
+        }
+      });
+
+      renderDirectoryList();
+    }
+
+    function selectUserForEdit(id) {
+      const target = allUsers.find(x => Number(x.id) === Number(id));
+      if (target) {
+        populateForm(target);
+      }
+    }
+
+    function startCreateNewUser() {
+      if (!isManager) return;
+      populateForm(null);
+      document.getElementById('field_login_id').focus();
+    }
+
+    async function deleteCurrentUser() {
+      if (!isManager || !selectedUserId) return;
+      const target = allUsers.find(x => Number(x.id) === Number(selectedUserId));
+      const label = target ? `${target.user_code} (${target.company_name || target.manager_name})` : selectedUserId;
+      if (!confirm(`Are you sure you want to delete ${label}? / 정말 이 계정을 삭제하시겠습니까?`)) return;
+
+      const res = await fetch('api_users.php?action=delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: selectedUserId })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        showToast('User deleted successfully. / 계정이 삭제되었습니다.');
+        selectedUserId = null;
+        await fetchUsersList();
+      } else {
+        showToast(data.error || 'Delete failed', true);
+      }
+    }
+
+    document.getElementById('userProfileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {};
+      allFormFields.forEach(f => {
+        const el = document.getElementById('field_' + f);
+        if (el && !el.disabled) {
+          payload[f] = el.value;
+        }
+      });
+      payload.id = document.getElementById('field_id').value;
+      const pw = document.getElementById('field_password').value.trim();
+      if (pw !== '') payload.password = pw;
+
+      const res = await fetch('api_users.php?action=save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.ok) {
+        showToast(
+          JoomoonApp.getLang() === 'ko-KR'
+            ? '✅ 성공적으로 데이터베이스(joomoon.users)에 저장되었습니다.'
+            : '✅ Changes saved to joomoon.users successfully.'
+        );
+        if (data.user) {
+          selectedUserId = data.user.id;
+          if (Number(data.user.id) === Number(currentUser.id)) {
+            currentUser = data.user;
+          }
+        }
+        await fetchUsersList();
+      } else {
+        showToast(data.error || 'Save failed', true);
+      }
+    });
+
+    function renderUI() {
+      const lang = JoomoonApp.getLang();
+      document.getElementById('langBtnEn').className = lang === 'en-AU'
+        ? 'px-2.5 py-1 rounded-md text-xs font-semibold bg-[#1E3A5F] text-white'
+        : 'px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600 hover:bg-slate-200/70';
+      document.getElementById('langBtnKo').className = lang === 'ko-KR'
+        ? 'px-2.5 py-1 rounded-md text-xs font-semibold bg-[#1E3A5F] text-white'
+        : 'px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600 hover:bg-slate-200/70';
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = JoomoonApp.t(el.getAttribute('data-i18n'));
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        el.placeholder = JoomoonApp.t(el.getAttribute('data-i18n-placeholder'));
+      });
+
+      if (!currentUser) return;
+      const u = currentUser;
+
+      document.getElementById('sidebarRoleBadge').textContent = u.user_type;
+      document.getElementById('sidebarUserCode').textContent = u.user_code;
+      document.getElementById('sidebarCountryCurrency').textContent = `${JoomoonApp.countryFlag(u.country)} · ${u.currency}`;
+      document.getElementById('sidebarDisplayName').textContent = u.company_name || u.manager_name || u.login_id;
+      document.getElementById('sidebarSubName').textContent = `${u.manager_name || ''} (${u.login_id})`;
+      document.getElementById('sidebarMenuHeader').textContent = JoomoonApp.t('menuHeader_' + u.user_type);
+
+      const menus = JoomoonApp.roleMenus(u.user_type, 'users', 'users');
+      document.getElementById('sidebarNavList').innerHTML = menus.map(m => {
+        const isActive = m.id === 'users';
+        const cls = isActive
+          ? 'bg-[#1E3A5F] text-white font-semibold border border-blue-800/60'
+          : 'text-slate-300 hover:bg-slate-800/80 hover:text-white';
+        return `
+          <a href="${m.href}" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-xs transition-colors ${cls}">
+            <span class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px]">${m.icon}</span>
+              <span>${JoomoonApp.t(m.labelKey)}</span>
+            </span>
+            ${m.badge ? `<span class="font-mono-code text-[10px] px-1.5 py-0.5 rounded bg-slate-900/80 text-slate-200">${m.badge}</span>` : ''}
+          </a>
+        `;
+      }).join('');
+
+      if (isManager) {
+        document.getElementById('headerPageTitle').textContent = JoomoonApp.t('pageTitle_Manager');
+        document.getElementById('pageMainHeading').textContent = JoomoonApp.t('pageTitle_Manager');
+        document.getElementById('pageSubHeading').textContent = JoomoonApp.t('pageSub_Manager');
+        document.getElementById('managerDirectoryPane').classList.remove('hidden');
+        document.getElementById('profileEditorPane').className = 'xl:col-span-7 bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm';
+        document.getElementById('btnAddNewTop').classList.remove('hidden');
+        document.getElementById('btnAddNewTop').classList.add('inline-flex');
+        document.getElementById('adminMemoSection').classList.remove('hidden');
+        document.getElementById('editorReadonlyNote').classList.add('hidden');
+      } else {
+        document.getElementById('headerPageTitle').textContent = JoomoonApp.t('pageTitle_Self');
+        document.getElementById('pageMainHeading').textContent = JoomoonApp.t('pageTitle_Self');
+        document.getElementById('pageSubHeading').textContent = JoomoonApp.t('pageSub_Self');
+        document.getElementById('managerDirectoryPane').classList.add('hidden');
+        document.getElementById('profileEditorPane').className = 'xl:col-span-12 bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm';
+        document.getElementById('btnAddNewTop').classList.add('hidden');
+        document.getElementById('adminMemoSection').classList.add('hidden');
+        document.getElementById('editorReadonlyNote').classList.remove('hidden');
+      }
+
+      renderRoleTabs();
+      renderDirectoryList();
+    }
+
+    async function fetchUsersList() {
+      const q = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim() : '';
+      const url = `api_users.php?action=list&user_type=${encodeURIComponent(activeRoleFilter)}&q=${encodeURIComponent(q)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (!data.ok) return;
+
+      isManager = !!data.is_manager;
+      allUsers = data.users || [];
+      counts = data.counts || { All: allUsers.length, Manager: 0, Buyer: 0, Customer: 0 };
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('new') === '1' && isManager && selectedUserId === null) {
+        renderUI();
+        startCreateNewUser();
+        return;
+      }
+
+      if (!selectedUserId && params.get('id')) {
+        selectedUserId = Number(params.get('id'));
+      }
+      if (!selectedUserId && allUsers.length > 0) {
+        selectedUserId = allUsers[0].id;
+      }
+
+      const target = allUsers.find(x => Number(x.id) === Number(selectedUserId)) || allUsers[0] || currentUser;
+      renderUI();
+      if (target) populateForm(target);
+    }
+
+    async function initPage() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('filter')) {
+        activeRoleFilter = params.get('filter');
+      }
+
+      const meRes = await fetch('api_auth.php?action=me');
+      const meData = await meRes.json();
+      if (!meData.ok || !meData.authenticated) {
+        window.location.href = 'index.html';
+        return;
+      }
+      currentUser = meData.user;
+      isManager = currentUser.user_type === 'Manager';
+
+      const demoRes = await fetch('api_auth.php?action=demo_accounts');
+      const demoData = await demoRes.json();
+      if (demoData.ok && demoData.accounts) {
+        document.getElementById('quickAccountSelect').innerHTML = demoData.accounts.map(a => `
+          <option value="${a.login_id}" ${currentUser.login_id === a.login_id ? 'selected' : ''}>
+            [${a.user_type}] ${a.user_code} · ${a.company_name || a.manager_name}
+          </option>
+        `).join('');
+      }
+
+      await fetchUsersList();
+    }
+
+    initPage();
+  </script>
+</body>
+</html>

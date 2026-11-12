@@ -1,0 +1,47 @@
+{
+  "name": "projects/12340825119876237315",
+  "projectId": "12340825119876237315",
+  "title": "Joomoon B2B & Hair Order Portal",
+  "visibility": "PRIVATE",
+  "createTime": "2026-11-12T03:26:50.927192Z",
+  "updateTime": "2026-11-12T03:35:00.000000Z",
+  "projectType": "PROJECT_DESIGN",
+  "origin": "MCP",
+  "deviceType": "DESKTOP",
+  "designSystem": "assets/bbdd21be31994d8da01b7b0cede2c20e",
+  "designTheme": {
+    "colorMode": "LIGHT",
+    "font": "PLUS_JAKARTA_SANS",
+    "roundness": "ROUND_EIGHT",
+    "customColor": "#1E3A5F"
+  },
+  "screens": {
+    "index": {
+      "id": "4e11441d80084c83851371d44f259248",
+      "sourceScreen": "projects/12340825119876237315/screens/4e11441d80084c83851371d44f259248",
+      "htmlFile": "projects/12340825119876237315/files/30b0fcac63944e4d9bca8b21c279b4d3",
+      "screenshotFile": "projects/12340825119876237315/files/e41d4abd369f452fb1ee5d5e184fe0aa",
+      "width": 2560,
+      "height": 2048
+    },
+    "portal": {
+      "id": "50fc2a3097aa44628400345bafa34e7f",
+      "sourceScreen": "projects/12340825119876237315/screens/50fc2a3097aa44628400345bafa34e7f",
+      "htmlFile": "projects/12340825119876237315/files/5dcbf7a89a164627aaf004bd368be9b9",
+      "screenshotFile": "projects/12340825119876237315/files/535836d41d5d463ca3101bd81962e5b3",
+      "width": 2560,
+      "height": 3524
+    },
+    "users": {
+      "id": "4dea1fd0b5b2458c9cdff2fef0c3ae0b",
+      "sourceScreen": "projects/12340825119876237315/screens/4dea1fd0b5b2458c9cdff2fef0c3ae0b",
+      "htmlFile": "projects/12340825119876237315/files/48247a58d72346f0a81f862567e8de89",
+      "screenshotFile": "projects/12340825119876237315/files/782f8c12b44e490aa57f32ecabd24efa",
+      "width": 2560,
+      "height": 2862
+    }
+  },
+  "metadata": {
+    "userRole": "OWNER"
+  }
+}

@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Users &amp; Self-Profile Management | Joomoon Global OMS</title>
+<!-- Google Fonts: Plus Jakarta Sans, Pretendard, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Verbatim Tailwind Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#f8f9ff",
+            "on-tertiary-fixed": "#001a42",
+            "inverse-on-surface": "#eaf1ff",
+            "secondary-fixed": "#dae2fd",
+            "on-secondary-fixed-variant": "#3f465c",
+            "on-tertiary-container": "#73a2ff",
+            "on-secondary-fixed": "#131b2e",
+            "surface": "#f8f9ff",
+            "primary-container": "#1e3a5f",
+            "on-primary-fixed-variant": "#2d486d",
+            "on-secondary": "#ffffff",
+            "on-surface-variant": "#43474e",
+            "on-secondary-container": "#5c647a",
+            "tertiary-fixed": "#d8e2ff",
+            "on-error": "#ffffff",
+            "primary": "#022448",
+            "secondary-container": "#dae2fd",
+            "on-error-container": "#93000a",
+            "on-tertiary-fixed-variant": "#004395",
+            "surface-container-low": "#eff4ff",
+            "error-container": "#ffdad6",
+            "background": "#f8f9ff",
+            "on-tertiary": "#ffffff",
+            "primary-fixed": "#d5e3ff",
+            "tertiary-container": "#00377c",
+            "on-background": "#0b1c30",
+            "on-primary-container": "#8aa4cf",
+            "surface-dim": "#cbdbf5",
+            "surface-container": "#e5eeff",
+            "on-primary-fixed": "#001c3b",
+            "inverse-primary": "#adc8f5",
+            "error": "#ba1a1a",
+            "secondary-fixed-dim": "#bec6e0",
+            "tertiary-fixed-dim": "#adc6ff",
+            "surface-tint": "#455f87",
+            "outline": "#74777f",
+            "on-primary": "#ffffff",
+            "secondary": "#565e74",
+            "surface-container-highest": "#d3e4fe",
+            "outline-variant": "#c4c6cf",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed-dim": "#adc8f5",
+            "surface-variant": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "surface-container-high": "#dce9ff",
+            "tertiary": "#002252",
+            "inverse-surface": "#213145"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "label-code-sm": ["JetBrains Mono"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "label-code-md": ["JetBrains Mono"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-caps": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "title-sm": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-code-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-code-md": ["13px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "700" }],
+            "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "display-lg-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "title-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.005em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+      line-height: 1;
+      display: inline-block;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TOP APP BAR (Shared Component Anchor) -->
+<header class="bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none sticky top-0 z-40">
+<div class="w-full px-6 py-3 flex justify-between items-center max-w-[1600px] mx-auto">
+<!-- Brand & Gateway Indicator -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="inventory_2">inventory_2</span>
+<span class="text-title-md font-title-md tracking-tight font-bold text-primary dark:text-inverse-primary">Joomoon Global OMS</span>
+</div>
+<div class="hidden xl:flex items-center gap-2 px-3 py-1 bg-surface-container-low rounded-lg border border-outline-variant">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-label-code-sm text-label-code-sm text-secondary">Sydney AU Gateway 01 ⇄ Seoul Incheon Hub</span>
+<span class="font-label-caps text-label-caps text-primary px-1.5 py-0.5 bg-secondary-container rounded">99.98% EDI SYNC</span>
+</div>
+</div>
+<!-- Navigation Links from JSON Anchor -->
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-primary dark:text-inverse-primary font-title-sm font-semibold border-b-2 border-primary dark:border-inverse-primary pb-1 transition duration-150 ease-in-out" href="#">Operations Network</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-sm hover:text-on-surface transition duration-150 ease-in-out" href="#">Security SLA</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-sm hover:text-on-surface transition duration-150 ease-in-out" href="#">B2B Inquiries</a>
+</nav>
+<!-- Trailing Action Hub -->
+<div class="flex items-center gap-3">
+<!-- Dual Mode Switcher -->
+<div class="hidden md:flex items-center bg-surface-container-low p-1 rounded-lg border border-outline-variant">
+<button class="px-2.5 py-1 text-label-code-sm font-label-code-sm bg-surface-container-lowest text-primary shadow-xs rounded font-semibold transition-all" id="mode-manager-btn" onclick="switchMode('manager')">
+            MGR-001 (전체 회원)
+          </button>
+<button class="px-2.5 py-1 text-label-code-sm font-label-code-sm text-on-surface-variant hover:text-primary rounded transition-all" id="mode-self-btn" onclick="switchMode('self')">
+            BUY-002 (내 정보 수정)
+          </button>
+</div>
+<!-- Language Pill (JSON trailing_secondary_action) -->
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-outline-variant bg-surface-container-lowest text-body-sm font-title-sm text-on-surface hover:text-primary transition duration-150 ease-in-out">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="language">language</span>
+<span>EN (AU) / 한국어</span>
+</button>
+<!-- Help Action (JSON trailing_primary_action) -->
+<button class="hidden sm:flex items-center gap-1 px-3 py-1.5 bg-primary text-on-primary rounded-lg text-title-sm font-title-sm hover:bg-tertiary transition duration-150 ease-in-out">
+<span class="material-symbols-outlined text-sm" data-icon="help_outline">help_outline</span>
+<span>Client Support</span>
+</button>
+<!-- Director Avatar Badge -->
+<div class="flex items-center gap-2 pl-2 border-l border-outline-variant">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-fixed flex items-center justify-center font-bold text-xs">
+            KT
+          </div>
+<div class="hidden md:block text-left leading-tight">
+<div class="font-title-sm text-title-sm font-semibold text-on-surface">Kang Tae-hoon (강태훈)</div>
+<div class="font-label-code-sm text-label-code-sm text-secondary">MGR-001 HQ Director</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- BREADCRUMBS STRIP -->
+<div class="bg-surface-container-lowest border-b border-outline-variant">
+<div class="max-w-[1600px] mx-auto px-6 py-2 flex items-center justify-between">
+<div class="flex items-center gap-2 text-body-sm font-body-sm text-on-surface-variant">
+<span>Portal (운영포털)</span>
+<span class="material-symbols-outlined text-xs text-outline" data-icon="chevron_right">chevron_right</span>
+<span>Executive Management (총괄 경영실)</span>
+<span class="material-symbols-outlined text-xs text-outline" data-icon="chevron_right">chevron_right</span>
+<span class="font-title-sm text-primary font-semibold">Users &amp; Profile Management (회원 및 프로필 관리)</span>
+</div>
+<div class="hidden lg:flex items-center gap-3">
+<span class="font-label-code-sm text-label-code-sm text-secondary">NTS &amp; ATO Linked: <strong class="text-on-surface">Active Verified (정상 연동)</strong></span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-code-sm text-label-code-sm text-secondary">Audit Hash: <span class="font-mono">#9041-KR-AU</span></span>
+</div>
+</div>
+</div>
+<!-- MAIN SHELL CONTAINER -->
+<div class="flex-1 flex max-w-[1600px] w-full mx-auto">
+<!-- LEFT NAVIGATION SIDEBAR (#0F172A Dark Slate Navy) -->
+<aside class="w-[260px] bg-[#0F172A] text-slate-300 flex-shrink-0 flex flex-col justify-between hidden md:flex border-r border-slate-800">
+<div>
+<!-- Current Operator Profile Card -->
+<div class="p-4 border-b border-slate-800 bg-[#162032]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-[#1E3A5F] text-white flex items-center justify-center font-bold text-sm border border-slate-700">
+              M01
+            </div>
+<div>
+<p class="text-xs font-semibold text-white">Kang Tae-hoon (강태훈)</p>
+<p class="text-[11px] font-mono text-slate-400">HQ Global · Node SYD-ICN</p>
+<div class="mt-1 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span class="text-[10px] text-emerald-300 tracking-wide font-medium">Session Verified</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Navigation Menu -->
+<nav class="p-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="dashboard">dashboard</span>
+<span>Overview Dashboard</span>
+</a>
+<!-- Active Menu Item: Users & Partners -->
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-[#1E3A5F] text-white font-medium text-sm transition-colors border-l-4 border-blue-400" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg" data-icon="manage_accounts">manage_accounts</span>
+<span>Users &amp; Partners</span>
+</div>
+<span class="px-2 py-0.5 text-[11px] font-mono bg-blue-900/60 text-blue-200 rounded-full">128</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors text-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg" data-icon="shopping_cart">shopping_cart</span>
+<span>Global Orders</span>
+</div>
+<span class="px-2 py-0.5 text-[11px] font-mono bg-amber-900/60 text-amber-200 rounded-full">42 New</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="flight_takeoff">flight_takeoff</span>
+<span>Cross-Border Freight</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+<span>Accounting &amp; Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="security">security</span>
+<span>Audit Logs &amp; Settings</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Footer Status -->
+<div class="p-4 border-t border-slate-800 text-xs">
+<div class="flex items-center justify-between text-slate-400 mb-2">
+<span>AU-KR Transit Link</span>
+<span class="text-emerald-400 font-mono font-semibold">ONLINE (99.98%)</span>
+</div>
+<div class="w-full bg-slate-800 rounded-full h-1.5 mb-3">
+<div class="bg-emerald-500 h-1.5 rounded-full w-[99.9%]"></div>
+</div>
+<a class="flex items-center gap-2 text-slate-400 hover:text-rose-300 transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+<span>Sign Out (보안 세션 종료)</span>
+</a>
+</div>
+</aside>
+<!-- MAIN WORKSPACE CANVAS -->
+<main class="flex-1 p-6 md:p-8 bg-surface custom-scrollbar overflow-y-auto">
+<!-- HEADER BANNER & ACTION BAR -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-outline-variant">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="text-headline-md font-headline-md text-primary tracking-tight">Users &amp; Self-Profile Management (회원 및 프로필 관리 체계)</h1>
+<span class="px-2 py-0.5 rounded text-[11px] font-label-caps bg-secondary-container text-on-secondary-container border border-outline-variant">ISO 27001</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">
+            Dual-jurisdiction enterprise directory and profile administration conforming to Australian ABN/ATO and Korean NTS compliance.
+          </p>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-title-sm font-title-sm text-on-surface hover:bg-surface-container-low transition">
+<span class="material-symbols-outlined text-base" data-icon="download">download</span>
+<span>Export CSV</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-title-sm font-title-sm text-on-surface hover:bg-surface-container-low transition">
+<span class="material-symbols-outlined text-base" data-icon="history">history</span>
+<span>Audit Trail (감사 기록)</span>
+</button>
+<button class="flex items-center gap-1.5 px-4 py-2 bg-primary text-on-primary rounded-lg text-title-sm font-title-sm hover:bg-tertiary transition shadow-sm">
+<span class="material-symbols-outlined text-base" data-icon="person_add">person_add</span>
+<span>+ Add New User (신규 회원 등록)</span>
+</button>
+</div>
+</div>
+<!-- VIEW MODE 1: DUAL PANE LAYOUT (DIRECTORY & EDITOR) -->
+<div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6" id="manager-view-container">
+<!-- LEFT COLUMN: DIRECTORY TABLE (~58% / 7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm flex flex-col justify-between">
+<div>
+<!-- Filters Header -->
+<div class="space-y-3 pb-4 border-b border-outline-variant">
+<!-- Search Bar -->
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-lg" data-icon="search">search</span>
+<input class="w-full pl-9 pr-4 py-2 bg-surface border border-outline-variant rounded-lg text-body-sm font-body-sm text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Search by Name, Entity, Email, Role Code, ABN/BRN..." type="text"/>
+</div>
+<!-- Filter Tabs & Dropdowns -->
+<div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+<!-- Role Tabs -->
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-lg border border-outline-variant">
+<button class="px-2.5 py-1 text-label-code-sm font-semibold rounded bg-surface-container-lowest text-primary shadow-xs">All Users (128)</button>
+<button class="px-2.5 py-1 text-label-code-sm text-on-surface-variant hover:text-primary">Managers (6)</button>
+<button class="px-2.5 py-1 text-label-code-sm text-on-surface-variant hover:text-primary">Wholesale Buyers (84)</button>
+<button class="px-2.5 py-1 text-label-code-sm text-on-surface-variant hover:text-primary">Direct (38)</button>
+</div>
+<!-- Status & Jurisdiction Facets -->
+<div class="flex items-center gap-2">
+<select class="py-1 px-2.5 text-label-code-sm bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface-variant">
+<option>Status: All Verified</option>
+<option>Active Verified (정상)</option>
+<option>KYC Pending (심사중)</option>
+<option>Suspended (정지)</option>
+</select>
+<select class="py-1 px-2.5 text-label-code-sm bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface-variant">
+<option>Jurisdiction: All</option>
+<option>🇦🇺 AU Hub (Sydney)</option>
+<option>🇰🇷 KR Hub (Seoul/Busan)</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Wholesale Manifest Directory Table -->
+<div class="overflow-x-auto mt-2">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface border-b border-outline-variant text-[11px] font-label-caps text-secondary tracking-wider">
+<th class="py-2.5 px-3">Entity &amp; Name (법인/대표)</th>
+<th class="py-2.5 px-2">Role Code</th>
+<th class="py-2.5 px-2">Node / Hub</th>
+<th class="py-2.5 px-2 text-right">Tax ID (ABN/BRN)</th>
+<th class="py-2.5 px-2">Wholesale Tier</th>
+<th class="py-2.5 px-2">Status</th>
+<th class="py-2.5 px-2 text-center">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant text-body-sm">
+<!-- Row 1 (Selected Row: BUY-002) -->
+<tr class="bg-surface-container-low/70 border-l-4 border-primary hover:bg-surface-container-low transition cursor-pointer">
+<td class="py-3 px-3">
+<div class="font-title-sm font-semibold text-primary">Apex Hair Studio Sydney</div>
+<div class="text-[11px] text-on-surface-variant">에이펙스 살롱 · Sarah Mitchell</div>
+</td>
+<td class="py-3 px-2">
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 bg-blue-100 text-blue-900 rounded font-semibold">BUY-002</span>
+</td>
+<td class="py-3 px-2 text-xs">
+<span>🇦🇺 Sydney NSW</span>
+</td>
+<td class="py-3 px-2 text-right font-label-code-sm text-label-code-sm text-on-surface">
+                      ABN 48 123 456 789
+                    </td>
+<td class="py-3 px-2">
+<span class="px-2 py-0.5 text-[11px] bg-slate-100 text-slate-800 rounded font-medium border border-slate-200">Tier 1 (22%)</span>
+</td>
+<td class="py-3 px-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0] rounded font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
+                      </span>
+</td>
+<td class="py-3 px-2 text-center">
+<button class="px-2.5 py-1 text-xs font-title-sm bg-primary text-white rounded hover:bg-tertiary">Selected</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition cursor-pointer">
+<td class="py-3 px-3">
+<div class="font-title-sm font-semibold text-on-surface">Seocho Premium Wigs</div>
+<div class="text-[11px] text-on-surface-variant">서초 프리미엄 헤어 · Park Min-woo</div>
+</td>
+<td class="py-3 px-2">
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 bg-blue-100 text-blue-900 rounded font-semibold">BUY-089</span>
+</td>
+<td class="py-3 px-2 text-xs">
+<span>🇰🇷 Seoul Gangnam</span>
+</td>
+<td class="py-3 px-2 text-right font-label-code-sm text-label-code-sm text-on-surface">
+                      BRN 214-88-90123
+                    </td>
+<td class="py-3 px-2">
+<span class="px-2 py-0.5 text-[11px] bg-slate-100 text-slate-800 rounded font-medium border border-slate-200">Tier 2 (15%)</span>
+</td>
+<td class="py-3 px-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0] rounded font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
+                      </span>
+</td>
+<td class="py-3 px-2 text-center">
+<button class="px-2.5 py-1 text-xs font-title-sm text-primary hover:bg-surface-container-low rounded border border-outline-variant">Edit</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition cursor-pointer">
+<td class="py-3 px-3">
+<div class="font-title-sm font-semibold text-on-surface">Gangnam Scalp Clinic Lab</div>
+<div class="text-[11px] text-on-surface-variant">강남 두피 케어 랩 · Dr. Choi H.</div>
+</td>
+<td class="py-3 px-2">
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 bg-blue-100 text-blue-900 rounded font-semibold">BUY-041</span>
+</td>
+<td class="py-3 px-2 text-xs">
+<span>🇰🇷 Seoul Incheon</span>
+</td>
+<td class="py-3 px-2 text-right font-label-code-sm text-label-code-sm text-on-surface">
+                      BRN 105-86-12345
+                    </td>
+<td class="py-3 px-2">
+<span class="px-2 py-0.5 text-[11px] bg-purple-50 text-purple-900 rounded font-medium border border-purple-200">Custom Spec</span>
+</td>
+<td class="py-3 px-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A] rounded font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> KYC Pend.
+                      </span>
+</td>
+<td class="py-3 px-2 text-center">
+<button class="px-2.5 py-1 text-xs font-title-sm text-primary hover:bg-surface-container-low rounded border border-outline-variant">Edit</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition cursor-pointer">
+<td class="py-3 px-3">
+<div class="font-title-sm font-semibold text-on-surface">Melbourne Salon Collective</div>
+<div class="text-[11px] text-on-surface-variant">멜버른 헤어 컬렉티브 · David Liam</div>
+</td>
+<td class="py-3 px-2">
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 bg-blue-100 text-blue-900 rounded font-semibold">BUY-112</span>
+</td>
+<td class="py-3 px-2 text-xs">
+<span>🇦🇺 Melbourne VIC</span>
+</td>
+<td class="py-3 px-2 text-right font-label-code-sm text-label-code-sm text-on-surface">
+                      ABN 91 602 884 192
+                    </td>
+<td class="py-3 px-2">
+<span class="px-2 py-0.5 text-[11px] bg-slate-100 text-slate-800 rounded font-medium border border-slate-200">Tier 1 (22%)</span>
+</td>
+<td class="py-3 px-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0] rounded font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
+                      </span>
+</td>
+<td class="py-3 px-2 text-center">
+<button class="px-2.5 py-1 text-xs font-title-sm text-primary hover:bg-surface-container-low rounded border border-outline-variant">Edit</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/50 transition cursor-pointer">
+<td class="py-3 px-3">
+<div class="font-title-sm font-semibold text-on-surface">Oliver Smith Hair Lounge</div>
+<div class="text-[11px] text-on-surface-variant">올리버 스미스 라운지 · Oliver S.</div>
+</td>
+<td class="py-3 px-2">
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 bg-emerald-100 text-emerald-900 rounded font-semibold">CST-004</span>
+</td>
+<td class="py-3 px-2 text-xs">
+<span>🇦🇺 Brisbane QLD</span>
+</td>
+<td class="py-3 px-2 text-right font-label-code-sm text-label-code-sm text-on-surface">
+                      ABN 33 552 119 042
+                    </td>
+<td class="py-3 px-2">
+<span class="px-2 py-0.5 text-[11px] bg-slate-100 text-slate-700 rounded font-medium">Standard Retail</span>
+</td>
+<td class="py-3 px-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0] rounded font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
+                      </span>
+</td>
+<td class="py-3 px-2 text-center">
+<button class="px-2.5 py-1 text-xs font-title-sm text-primary hover:bg-surface-container-low rounded border border-outline-variant">Edit</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Pagination Footer -->
+<div class="pt-4 border-t border-outline-variant flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-body-sm">
+<span class="text-on-surface-variant font-label-code-sm">Showing 1-5 of 128 Registered Entities (총 128개 등록 법인 중 1-5)</span>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 border border-outline-variant rounded bg-surface text-secondary hover:text-primary text-xs">Prev</button>
+<button class="px-2.5 py-1 border border-primary bg-primary text-white rounded text-xs font-semibold">1</button>
+<button class="px-2.5 py-1 border border-outline-variant rounded bg-surface hover:bg-surface-container-low text-xs">2</button>
+<button class="px-2.5 py-1 border border-outline-variant rounded bg-surface hover:bg-surface-container-low text-xs">3</button>
+<span class="px-1 text-secondary">...</span>
+<button class="px-2.5 py-1 border border-outline-variant rounded bg-surface text-secondary hover:text-primary text-xs">Next</button>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: COMPREHENSIVE MULTI-SECTION EDITOR PANEL (~42% / 5 cols) -->
+<div class="lg:col-span-5 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm flex flex-col justify-between">
+<div>
+<!-- Editor Title & Save Actions -->
+<div class="flex items-center justify-between pb-4 border-b border-outline-variant">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-code-sm text-label-code-sm px-2 py-0.5 bg-blue-100 text-blue-900 rounded font-semibold">BUY-002</span>
+<h2 class="text-title-md font-title-md text-primary font-bold">Apex Hair Studio Sydney</h2>
+</div>
+<p class="text-body-sm text-on-surface-variant">에이펙스 살롱 · Bonded Hub Wholesale Profile</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 text-xs font-title-sm text-on-surface-variant hover:text-on-surface border border-outline-variant rounded-lg">Reset</button>
+<button class="px-3.5 py-1.5 text-xs font-title-sm bg-primary text-white rounded-lg hover:bg-tertiary flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="save">save</span>
+<span>Save Changes</span>
+</button>
+</div>
+</div>
+<!-- Stacked Clean Profile Sections -->
+<div class="space-y-6 mt-5 max-h-[640px] overflow-y-auto pr-1 custom-scrollbar">
+<!-- Section A: Account & Role Information -->
+<div class="p-4 bg-surface rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="badge">badge</span>
+<h3 class="font-title-sm font-semibold text-primary">a) Account &amp; Role Authentication</h3>
+</div>
+<span class="text-[11px] font-label-code-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">MFA Enforced</span>
+</div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div>
+<label class="block font-medium text-secondary mb-1">User ID / Primary Login</label>
+<input class="w-full font-label-code-sm bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="apex.sydney@joomoon.com.au"/>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">Role Assignment</label>
+<select class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface font-title-sm">
+<option selected="">BUY-002 | Wholesale Buyer</option>
+<option>MGR-001 | Regional Manager</option>
+<option>CST-004 | Direct Customer</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Section B: Company & Business Registration (ABN/BRN) -->
+<div class="p-4 bg-surface rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="domain">domain</span>
+<h3 class="font-title-sm font-semibold text-primary">b) Company &amp; Tax Registration (ABN / BRN)</h3>
+</div>
+<span class="text-[10px] font-label-code-sm bg-blue-50 text-blue-800 px-2 py-0.5 rounded border border-blue-200">ATO Verified</span>
+</div>
+<div class="space-y-3 text-xs">
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block font-medium text-secondary mb-1">Registered Entity Name</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Apex Hair Studio Pty Ltd"/>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">Trade Name (Bilingual)</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="에이펙스 살롱 시드니"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block font-medium text-secondary mb-1">Australian ABN</label>
+<input class="w-full font-label-code-sm bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="48 123 456 789"/>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">Wholesale Contract Tier</label>
+<select class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface">
+<option selected="">Tier 1 [22% Volume Rebate]</option>
+<option>Tier 2 [15% Volume Rebate]</option>
+<option>Standard Commercial [No Rebate]</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Section C: Contact & Authorized Executive -->
+<div class="p-4 bg-surface rounded-lg border border-outline-variant">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-base" data-icon="person">person</span>
+<h3 class="font-title-sm font-semibold text-primary">c) Authorized Executive &amp; Operations Dispatch</h3>
+</div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div>
+<label class="block font-medium text-secondary mb-1">CEO / Representative</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Sarah Mitchell (사라 미첼)"/>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">Direct Operational Phone</label>
+<input class="w-full font-label-code-sm bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="+61 2 9888 1234"/>
+</div>
+<div class="col-span-2">
+<label class="block font-medium text-secondary mb-1">Emergency Freight Liaison</label>
+<input class="w-full font-label-code-sm bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="dispatch@apexhair.com.au (24/7 Priority)"/>
+</div>
+</div>
+</div>
+<!-- Section D: Bonded Shipping & Logistics Node -->
+<div class="p-4 bg-surface rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="local_shipping">local_shipping</span>
+<h3 class="font-title-sm font-semibold text-primary">d) Shipping &amp; Bonded Logistics Address</h3>
+</div>
+<span class="text-[10px] font-label-code-sm bg-slate-100 text-slate-700 px-2 py-0.5 rounded">SYD Gateway Node</span>
+</div>
+<div class="space-y-2 text-xs">
+<div>
+<label class="block font-medium text-secondary mb-1">Address Line 1</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Level 4, 188 George Street"/>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div>
+<label class="block font-medium text-secondary mb-1">City / District</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Sydney CBD"/>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">State / Postal Code</label>
+<input class="w-full font-label-code-sm bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="NSW 2000"/>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">Country</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Australia [AU]"/>
+</div>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">Incheon Hub Customs Code (PCCC / 개인통관고유부호)</label>
+<input class="w-full font-label-code-sm bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface text-blue-900" type="text" value="P291048192019 (Valid for KR Cross-Dock)"/>
+</div>
+</div>
+</div>
+<!-- Section E: Freight & Carrier Preferences -->
+<div class="p-4 bg-surface rounded-lg border border-outline-variant">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-base" data-icon="flight">flight</span>
+<h3 class="font-title-sm font-semibold text-primary">e) Freight Carrier &amp; Packaging Specs</h3>
+</div>
+<div class="grid grid-cols-2 gap-3 text-xs">
+<div>
+<label class="block font-medium text-secondary mb-1">Primary Carrier</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Asiana Cargo EDI / Qantas Freight"/>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">Handling Specification</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Temp &amp; Humidity Controlled Crates"/>
+</div>
+<div class="col-span-2">
+<label class="block font-medium text-secondary mb-1">Customs Clearance Broker</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Kim &amp; Partner Customs Sydney-Incheon Express"/>
+</div>
+</div>
+</div>
+<!-- Section F: Accounting, Tax & Banking -->
+<div class="p-4 bg-surface rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="account_balance">account_balance</span>
+<h3 class="font-title-sm font-semibold text-primary">f) Invoicing, Currency &amp; Bank Settlement</h3>
+</div>
+<span class="text-[10px] font-label-code-sm bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded border border-emerald-200">GST Exemption Active</span>
+</div>
+<div class="space-y-3 text-xs">
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block font-medium text-secondary mb-1">Settlement Currency</label>
+<select class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface font-label-code-sm">
+<option selected="">AUD - Australian Dollar</option>
+<option>KRW - 원화 (대한민국)</option>
+<option>USD - United States Dollar</option>
+</select>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">Payment Schedule</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Monthly Net-30 (EDI Auto-Reconciled)"/>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div>
+<label class="block font-medium text-secondary mb-1">Depository Bank</label>
+<input class="w-full bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="Commonwealth Bank"/>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">BSB Code</label>
+<input class="w-full font-label-code-sm bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="062-000"/>
+</div>
+<div>
+<label class="block font-medium text-secondary mb-1">Account Number</label>
+<input class="w-full font-label-code-sm bg-white border border-outline-variant rounded px-2.5 py-1.5 text-on-surface" type="text" value="1048-2948-1294"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Micro Notice -->
+<div class="pt-4 border-t border-outline-variant flex items-center justify-between text-[11px] text-secondary">
+<span>Last Modified: 2025-05-18 14:22:09 AEST</span>
+<span class="font-label-code-sm">Authorized by MGR-001</span>
+</div>
+</div>
+</div>
+<!-- VIEW MODE 2: SELF-SERVICE PROFILE PREVIEW (ACCORDION / TOGGLE VIEW) -->
+<div class="mt-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hidden" id="self-view-container">
+<div class="flex items-center justify-between pb-4 border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-primary-container text-white flex items-center justify-center font-bold text-lg">
+              AS
+            </div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-title-md font-title-md font-bold text-primary">Apex Hair Studio (Sarah Mitchell) — Self-Service Profile</h2>
+<span class="font-label-code-sm px-2 py-0.5 bg-blue-100 text-blue-900 rounded text-xs">BUY-002</span>
+</div>
+<p class="text-body-sm text-secondary">Manage delivery instructions, saved wholesale cards, and fast reorder customs presets.</p>
+</div>
+</div>
+<button class="px-3 py-1.5 text-xs border border-outline-variant rounded-lg text-primary hover:bg-surface-container-low font-title-sm" onclick="switchMode('manager')">
+            ← Return to Directory Manager
+          </button>
+</div>
+<!-- 3-Column Bento Grid for Self-Service View -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+<!-- Bento Card 1: Default Logistics Location -->
+<div class="p-5 bg-surface border border-outline-variant rounded-xl">
+<div class="flex items-center justify-between mb-3">
+<span class="font-title-sm font-semibold text-primary">Direct Delivery Address</span>
+<span class="material-symbols-outlined text-secondary" data-icon="location_on">location_on</span>
+</div>
+<p class="text-xs text-on-surface font-medium">Apex Hair Studio - Primary Salon</p>
+<p class="text-xs text-secondary mt-1">Level 4, 188 George Street, Sydney CBD, NSW 2000, Australia</p>
+<div class="mt-4 pt-3 border-t border-outline-variant flex items-center justify-between text-xs">
+<span class="text-emerald-700 font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Verified Recipient
+              </span>
+<button class="text-primary hover:underline font-title-sm">Edit Address</button>
+</div>
+</div>
+<!-- Bento Card 2: Preferred Remittance & Settlement -->
+<div class="p-5 bg-surface border border-outline-variant rounded-xl">
+<div class="flex items-center justify-between mb-3">
+<span class="font-title-sm font-semibold text-primary">Wholesale Payment Method</span>
+<span class="material-symbols-outlined text-secondary" data-icon="credit_card">credit_card</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="px-2 py-1 bg-slate-800 text-white rounded text-[11px] font-mono">VISA B2B</div>
+<div>
+<p class="text-xs font-mono font-medium">•••• •••• •••• 9104</p>
+<p class="text-[11px] text-secondary">Expires 09/28 · AUD Primary</p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant flex items-center justify-between text-xs">
+<span class="text-slate-600 font-label-code-sm">Auto-Reconcile Net-30</span>
+<button class="text-primary hover:underline font-title-sm">Update Card</button>
+</div>
+</div>
+<!-- Bento Card 3: Custom Delivery Instructions -->
+<div class="p-5 bg-surface border border-outline-variant rounded-xl">
+<div class="flex items-center justify-between mb-3">
+<span class="font-title-sm font-semibold text-primary">Warehouse Special Instructions</span>
+<span class="material-symbols-outlined text-secondary" data-icon="notes">notes</span>
+</div>
+<p class="text-xs text-secondary italic">"Deliver through loading dock B on Harrington St. Do not crush hair extensions crates. Contact loading master Dave at dock gate."</p>
+<div class="mt-4 pt-3 border-t border-outline-variant flex items-center justify-between text-xs">
+<span class="text-blue-700 font-label-code-sm">Carrier Sync Enabled</span>
+<button class="text-primary hover:underline font-title-sm">Change Note</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- FOOTER (Shared Component Anchor) -->
+<footer class="bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline text-on-surface-variant dark:text-surface-variant mt-auto">
+<div class="w-full px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4 max-w-[1600px] mx-auto text-on-surface-variant dark:text-surface-variant">
+<!-- Brand & Security Certification String -->
+<div class="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+<span class="text-title-sm font-title-sm font-bold text-on-surface dark:text-inverse-on-surface">Joomoon Global OMS</span>
+<span class="hidden sm:inline text-outline">|</span>
+<span class="text-body-sm font-body-sm">
+          © 2025 Joomoon Global OMS. All rights reserved. ABN 48 123 456 789. ISO/IEC 27001 Certified &amp; 256-Bit SSL Encrypted.
+        </span>
+</div>
+<!-- Links from Anchor JSON -->
+<div class="flex flex-wrap items-center gap-5 text-body-sm font-body-sm">
+<a class="hover:text-primary dark:hover:text-inverse-primary underline-offset-4 hover:underline transition-colors duration-150" href="#">Privacy Policy</a>
+<a class="hover:text-primary dark:hover:text-inverse-primary underline-offset-4 hover:underline transition-colors duration-150" href="#">Terms of Service</a>
+<a class="hover:text-primary dark:hover:text-inverse-primary underline-offset-4 hover:underline transition-colors duration-150" href="#">Wholesale Compliance</a>
+<a class="hover:text-primary dark:hover:text-inverse-primary underline-offset-4 hover:underline transition-colors duration-150" href="#">AU-KR Logistics Status</a>
+</div>
+</div>
+</footer>
+<!-- Micro-Interactions Script for Seamless Mode Switching -->
+<script>
+    function switchMode(mode) {
+      const managerContainer = document.getElementById('manager-view-container');
+      const selfContainer = document.getElementById('self-view-container');
+      const managerBtn = document.getElementById('mode-manager-btn');
+      const selfBtn = document.getElementById('mode-self-btn');
+
+      if (mode === 'manager') {
+        managerContainer.classList.remove('hidden');
+        selfContainer.classList.add('hidden');
+        
+        managerBtn.className = "px-2.5 py-1 text-label-code-sm font-label-code-sm bg-surface-container-lowest text-primary shadow-xs rounded font-semibold transition-all";
+        selfBtn.className = "px-2.5 py-1 text-label-code-sm font-label-code-sm text-on-surface-variant hover:text-primary rounded transition-all";
+      } else {
+        managerContainer.classList.add('hidden');
+        selfContainer.classList.remove('hidden');
+
+        selfBtn.className = "px-2.5 py-1 text-label-code-sm font-label-code-sm bg-surface-container-lowest text-primary shadow-xs rounded font-semibold transition-all";
+        managerBtn.className = "px-2.5 py-1 text-label-code-sm font-label-code-sm text-on-surface-variant hover:text-primary rounded transition-all";
+      }
+    }
+  </script>
+</body></html>
