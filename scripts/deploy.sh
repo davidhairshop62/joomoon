@@ -10,7 +10,7 @@ SERVER_TARGET="root@187.127.96.101:/var/www/joomoon/"
 
 echo "🚀 [Deploy] Syncing local files (upload/update/delete) to /var/www/joomoon..."
 
-rsync -avz --delete \
+rsync -avz --no-owner --no-group --delete \
   --exclude='.git/' \
   --exclude='.agents/' \
   --exclude='scratch/' \
