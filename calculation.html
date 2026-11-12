@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html class="light" lang="ko-KR">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Joomoon OMS — David Hair Factory AUD Quote Calculation</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-[#1E293B] antialiased min-h-screen flex">
+  <!-- LEFT FIXED EXECUTIVE SIDEBAR (#0F172A) -->
+  <aside class="w-[268px] bg-[#0F172A] text-slate-200 flex flex-col justify-between shrink-0 min-h-screen border-r border-slate-800">
+    <div>
+      <!-- Brand Header -->
+      <div class="p-6 border-b border-slate-800/80">
+        <a href="portal.html" class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-[#1E3A5F] border border-slate-600/60 flex items-center justify-center text-white font-bold text-sm">
+            JM
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base font-bold tracking-tight text-white">JOOMOON</span>
+              <span id="sidebarRoleBadge" class="font-mono-code text-[10px] px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800">Manager</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-0.5" data-i18n="brandSubtitle">Global Hair & Order System</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Active User Summary Card in Sidebar -->
+      <div class="px-4 py-4 border-b border-slate-800/80 bg-slate-900/50 space-y-2.5">
+        <div>
+          <div class="flex items-center justify-between">
+            <span id="sidebarUserCode" class="font-mono-code text-xs font-semibold text-blue-300">MGR-001</span>
+            <span id="sidebarCountryCurrency" class="font-mono-code text-[11px] text-slate-400">🇦🇺 AU · AUD</span>
+          </div>
+          <div id="sidebarDisplayName" class="text-sm font-semibold text-white truncate mt-1">Loading...</div>
+          <div id="sidebarSubName" class="text-xs text-slate-400 truncate">-</div>
+        </div>
+        <button type="button" onclick="logout()"
+          class="w-full py-1.5 px-3 rounded-lg bg-red-950/60 hover:bg-red-900/80 border border-red-800/70 text-red-200 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors">
+          <span class="material-symbols-outlined text-[15px]">logout</span>
+          <span data-i18n="btnSignOut">Log Out</span>
+        </button>
+      </div>
+
+      <!-- Role-Specific Dynamic Navigation Menu -->
+      <div class="p-4">
+        <div id="sidebarMenuHeader" class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-3 mb-2">
+          ROLE NAVIGATION
+        </div>
+        <nav id="sidebarNavList" class="space-y-1">
+          <!-- Populated dynamically according to user_type (Manager / Buyer / Customer) -->
+        </nav>
+      </div>
+    </div>
+
+    <!-- Sidebar Footer: Quick Sample Account Switcher -->
+    <div class="p-4 border-t border-slate-800 bg-slate-900/60 space-y-2.5">
+      <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400" data-i18n="btnSwitchRolePreview">Switch Sample Account</div>
+      <select id="quickAccountSelect" onchange="handleQuickSwitch(this.value)"
+        class="w-full text-xs bg-slate-800 border border-slate-700 text-slate-100 rounded-lg px-2.5 py-2 font-mono-code focus:ring-[#1E3A5F] focus:border-[#1E3A5F]">
+      </select>
+      <button type="button" onclick="logout()"
+        class="w-full py-2 px-3 rounded-lg bg-slate-800 hover:bg-red-950/70 border border-slate-700 hover:border-red-800 text-slate-200 hover:text-red-200 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors">
+        <span class="material-symbols-outlined text-[16px]">logout</span>
+        <span data-i18n="btnSignOut">Sign Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN WORKSPACE AREA -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- Top Utility Bar -->
+    <header class="h-16 bg-white border-b border-[#E2E8F0] px-6 lg:px-8 flex items-center justify-between gap-4 sticky top-0 z-20">
+      <div class="flex items-center gap-3 min-w-0">
+        <span class="material-symbols-outlined text-[#1E3A5F]">calculate</span>
+        <div class="truncate">
+          <div class="flex items-center gap-2">
+            <span id="topPageTitle" class="text-sm font-bold text-[#0F172A]">David Hair Factory AUD Quote Calculation</span>
+            <span id="topUserCodePill" class="font-mono-code text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <a href="portal.html"
+          class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-colors">
+          <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+          <span id="btnBackPortal">Landing</span>
+        </a>
+
+        <!-- Bilingual Language Switcher (EN-AU | 한국어) -->
+        <div class="inline-flex items-center bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg p-0.5">
+          <button id="langBtnEn" type="button" onclick="switchLang('en-AU')" class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">
+            🇦🇺 EN (AU)
+          </button>
+          <button id="langBtnKo" type="button" onclick="switchLang('ko-KR')" class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">
+            🇰🇷 한국어
+          </button>
+        </div>
+
+        <!-- Prominent Top Header Log Out Button -->
+        <button type="button" onclick="logout()"
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-red-200 bg-red-50 hover:bg-red-600 text-red-700 hover:text-white text-xs font-semibold shadow-sm transition-colors">
+          <span class="material-symbols-outlined text-[16px]">logout</span>
+          <span data-i18n="btnSignOut">Log Out</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="p-6 lg:p-8 max-w-[1520px] w-full mx-auto space-y-6">
+      <!-- Page Banner & Exchange Rate Basis -->
+      <section class="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="space-y-1.5">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-mono-code text-xs font-semibold px-2.5 py-0.5 rounded bg-[#1E3A5F] text-white">AUD ONLY QUOTE ENGINE</span>
+            <span class="font-mono-code text-xs text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200">1 USD = 1.4632 AUD</span>
+            <span id="rolePricingBadge" class="font-mono-code text-xs text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded border border-slate-200"></span>
+          </div>
+          <h1 id="calcMainHeading" class="text-2xl font-bold text-[#0F172A] tracking-tight">
+            David Hair Factory Men's & Women's Hair System Pricing & Quote Calculator (AUD)
+          </h1>
+          <p id="calcMainSubheading" class="text-sm text-[#64748B]">
+            Comprehensive AUD pricing calculator for Stock Systems and Custom Orders (Men's Toupee & Women's Toppers / Full Cap Wigs).
+          </p>
+        </div>
+
+        <!-- Mode Tabs -->
+        <div class="inline-flex bg-[#F8FAFC] p-1 rounded-xl border border-slate-200 shrink-0 self-start lg:self-center">
+          <button type="button" id="tabBtnCustom" onclick="setCalcMode('custom')"
+            class="px-4 py-2 rounded-lg text-xs font-bold transition-all">
+            1. Custom Order (맞춤 가발)
+          </button>
+          <button type="button" id="tabBtnStock" onclick="setCalcMode('stock')"
+            class="px-4 py-2 rounded-lg text-xs font-bold transition-all">
+            2. Stock System (기성 가발)
+          </button>
+          <button type="button" id="tabBtnTables" onclick="setCalcMode('tables')"
+            class="px-4 py-2 rounded-lg text-xs font-bold transition-all">
+            3. Full Price Tables (단가표 전문)
+          </button>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- SECTION A: 8 PRACTICAL PRESET EXAMPLES (Section 4 of hair_aud_en.md) -->
+      <!-- =================================================================== -->
+      <section id="presetsSection" class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[#1E3A5F] text-[20px]">bookmark_star</span>
+            <h2 id="presetSectionTitle" class="text-xs font-bold uppercase tracking-wider text-[#0F172A]">
+              SECTION 4 PRACTICAL QUOTE EXAMPLES (CLICK TO LOAD INTO CALCULATOR)
+            </h2>
+          </div>
+          <span id="presetSectionHint" class="text-xs text-slate-500">
+            3 Men's Custom + 5 Women's Custom verified examples from hair_aud_en.md
+          </span>
+        </div>
+        <div id="presetButtonsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- SECTION B: INTERACTIVE CALCULATOR WORKSPACE (LEFT INPUTS + RIGHT LIVE QUOTE) -->
+      <!-- =================================================================== -->
+      <div id="calculatorWorkspace" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- LEFT 7 COLUMNS: CONFIGURATION FORM -->
+        <div class="lg:col-span-7 space-y-6">
+
+          <!-- MODE 1: CUSTOM ORDER FORM -->
+          <div id="customOrderFormPanel" class="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div>
+                <h2 id="customFormTitle" class="text-base font-bold text-[#0F172A]">1.2 Custom Order Configuration (맞춤 제작 사양 선택)</h2>
+                <p id="customFormSub" class="text-xs text-slate-500 mt-0.5">
+                  Starting Base Price: <span class="font-mono-code font-semibold text-[#1E3A5F]">AUD $510.66</span> (Includes standard base ≤ 70 sq in, 5"–6" Indian Hair, ≤ 100% density)
+                </p>
+              </div>
+              <button type="button" onclick="resetCustomCalculator()"
+                class="px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors">
+                <span id="btnResetText">Reset</span>
+              </button>
+            </div>
+
+            <!-- Step 1: Category & Base Size / Construction -->
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <label id="lblStep1Base" class="block text-xs font-bold uppercase tracking-wider text-[#1E3A5F]">
+                  STEP 1. BASE SIZE & CAP CONSTRUCTION (베이스 크기 및 구조)
+                </label>
+                <!-- Optional Width x Length Area Helper -->
+                <div class="flex items-center gap-1.5 text-xs">
+                  <span id="lblAreaHelper" class="text-slate-500">Size (in):</span>
+                  <input type="number" id="inWidth" step="0.5" min="1" max="20" placeholder="W" oninput="calcAreaHelper()"
+                    class="w-14 px-2 py-1 text-xs font-mono-code border border-slate-300 rounded focus:ring-[#1E3A5F] focus:border-[#1E3A5F]"/>
+                  <span>×</span>
+                  <input type="number" id="inLength" step="0.5" min="1" max="20" placeholder="L" oninput="calcAreaHelper()"
+                    class="w-14 px-2 py-1 text-xs font-mono-code border border-slate-300 rounded focus:ring-[#1E3A5F] focus:border-[#1E3A5F]"/>
+                  <span id="areaComputedBadge" class="font-mono-code text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700">6"×7" = 42 sq in</span>
+                </div>
+              </div>
+
+              <div id="baseSizeOptionsList" class="grid grid-cols-1 gap-2.5">
+                <!-- Populated by JS -->
+              </div>
+
+              <!-- Silk Top / Injection Upgrade Checkbox -->
+              <label class="flex items-center justify-between p-3.5 rounded-lg border border-teal-200 bg-teal-50/50 cursor-pointer hover:bg-teal-50 transition-colors">
+                <div class="flex items-center gap-3">
+                  <input type="checkbox" id="chkSilkTop" onchange="recalculate()"
+                    class="rounded border-slate-300 text-[#1E3A5F] focus:ring-[#1E3A5F] w-4 h-4"/>
+                  <div>
+                    <div id="lblSilkTopTitle" class="text-xs font-bold text-[#0F172A]">
+                      Silk Top (2–3 Layer Injected Silk Parting) / Full Skin Injection Upgrade
+                    </div>
+                    <div id="lblSilkTopSub" class="text-[11px] text-slate-600">
+                      Essential realistic scalp parting upgrade for Women's Toppers & premium Men's systems
+                    </div>
+                  </div>
+                </div>
+                <span class="font-mono-code text-xs font-bold text-teal-800 shrink-0">+AUD $87.79</span>
+              </label>
+            </div>
+
+            <!-- Step 2: Hair Length Add-ons -->
+            <div class="space-y-3 pt-2 border-t border-slate-100">
+              <label id="lblStep2Length" class="block text-xs font-bold uppercase tracking-wider text-[#1E3A5F]">
+                STEP 2. HAIR LENGTH ADD-ON (모발 기장별 추가금: 5" ~ 20")
+              </label>
+              <div id="hairLengthGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- Step 3: Percentage Multipliers (Hair Quality & Density) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
+              <!-- 3-1 Hair Quality -->
+              <div class="space-y-2.5">
+                <label id="lblStep3Quality" class="block text-xs font-bold uppercase tracking-wider text-[#1E3A5F]">
+                  STEP 3-1. HAIR QUALITY (% OF SUBTOTAL S)
+                </label>
+                <div id="hairQualityList" class="space-y-2">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <!-- 3-2 Hair Density -->
+              <div class="space-y-2.5">
+                <label id="lblStep3Density" class="block text-xs font-bold uppercase tracking-wider text-[#1E3A5F]">
+                  STEP 3-2. HAIR DENSITY (% OF SUBTOTAL S)
+                </label>
+                <div id="hairDensityList" class="space-y-2">
+                  <!-- Populated by JS -->
+                </div>
+                <div id="density12InchNotice" class="hidden p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-[11px] text-amber-800">
+                  <!-- Shown when Medium 110% + Length >= 12" -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Other Fixed Option Add-ons -->
+            <div class="space-y-3 pt-2 border-t border-slate-100">
+              <label id="lblStep4Addons" class="block text-xs font-bold uppercase tracking-wider text-[#1E3A5F]">
+                STEP 4. OTHER FIXED OPTION ADD-ONS (기타 고정 옵션 추가금 — SUBTOTAL S에 합산)
+              </label>
+              <div id="fixedAddonsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- MODE 2: STOCK SYSTEM FORM (HIDDEN UNLESS SELECTED) -->
+          <div id="stockSystemFormPanel" class="hidden bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div>
+                <h2 id="stockFormTitle" class="text-base font-bold text-[#0F172A]">1.1 Stock Systems Configuration (기성 가발 견적 계산)</h2>
+                <p id="stockFormSub" class="text-xs text-slate-500 mt-0.5">
+                  Final Price (AUD) = Model Base Price + Base Cutting (Optional: AUD $21.95) + Hair Cut-in & Styling (Optional: AUD $58.53)
+                </p>
+              </div>
+              <div class="inline-flex bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+                <button type="button" id="btnStockCatMen" onclick="setStockCategory('men')" class="px-3 py-1 rounded-md text-xs font-bold">Men's Stock</button>
+                <button type="button" id="btnStockCatWomen" onclick="setStockCategory('women')" class="px-3 py-1 rounded-md text-xs font-bold">Women's Stock</button>
+              </div>
+            </div>
+
+            <!-- Stock Model Selection List -->
+            <div id="stockModelsList" class="space-y-2.5">
+              <!-- Populated by JS -->
+            </div>
+
+            <!-- Selected Stock Model Price Slider / Exact Input within Range -->
+            <div class="p-4 rounded-xl bg-[#F8FAFC] border border-slate-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span id="lblStockBasePriceInput" class="text-xs font-bold text-[#0F172A]">Selected Model Base Price (AUD)</span>
+                <span id="lblStockRangeText" class="font-mono-code text-xs text-slate-500">Range: AUD $283.86 ~ $349.70</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <input type="range" id="stockPriceSlider" step="0.01" oninput="syncStockPriceFromSlider(this.value)"
+                  class="flex-1 accent-[#1E3A5F]"/>
+                <div class="flex items-center gap-1.5">
+                  <span class="font-mono-code text-xs font-bold text-slate-500">AUD $</span>
+                  <input type="number" id="stockPriceInput" step="0.01" oninput="syncStockPriceFromInput(this.value)"
+                    class="w-28 px-2.5 py-1.5 font-mono-code text-sm font-bold text-[#0F172A] border border-slate-300 rounded-lg focus:ring-[#1E3A5F] focus:border-[#1E3A5F]"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stock Optional Services -->
+            <div class="space-y-2.5 pt-2 border-t border-slate-100">
+              <label id="lblStockOptionalServices" class="block text-xs font-bold uppercase tracking-wider text-[#1E3A5F]">
+                OPTIONAL STOCK SERVICES (기성 가발 선택 옵션)
+              </label>
+              <label class="flex items-center justify-between p-3.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                <div class="flex items-center gap-3">
+                  <input type="checkbox" id="chkStockBaseCut" onchange="recalculate()" class="rounded border-slate-300 text-[#1E3A5F] focus:ring-[#1E3A5F] w-4 h-4"/>
+                  <span id="lblStockBaseCut" class="text-xs font-semibold text-[#0F172A]">Base Size Trimming / Cutting to Template (베이스 크기 재단)</span>
+                </div>
+                <span class="font-mono-code text-xs font-bold text-[#1E3A5F]">+AUD $21.95</span>
+              </label>
+
+              <label class="flex items-center justify-between p-3.5 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+                <div class="flex items-center gap-3">
+                  <input type="checkbox" id="chkStockCutIn" onchange="recalculate()" class="rounded border-slate-300 text-[#1E3A5F] focus:ring-[#1E3A5F] w-4 h-4"/>
+                  <span id="lblStockCutIn" class="text-xs font-semibold text-[#0F172A]">Professional Stylist Hair Cut-In & Styling (스타일리스트 커트 & 스타일링)</span>
+                </div>
+                <span class="font-mono-code text-xs font-bold text-[#1E3A5F]">+AUD $58.53</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT 5 COLUMNS: STICKY LIVE FORMULA & QUOTE SUMMARY CARD -->
+        <div class="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
+          <div class="bg-[#0F172A] text-white rounded-xl p-6 shadow-lg border border-slate-800 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+              <div>
+                <div class="text-[11px] font-mono-code uppercase tracking-wider text-blue-300" id="quoteCardBadge">LIVE AUD FORMULA BREAKDOWN</div>
+                <h3 id="quoteCardTitle" class="text-lg font-bold text-white mt-0.5">Official Quote Summary (AUD)</h3>
+              </div>
+              <span class="font-mono-code text-xs px-2.5 py-1 rounded bg-blue-950 text-blue-200 border border-blue-800">AUD ($)</span>
+            </div>
+
+            <!-- Formula Equation Box -->
+            <div class="p-3.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs space-y-1.5">
+              <div class="text-[10px] font-mono-code uppercase tracking-wider text-slate-400" id="lblFormulaRule">APPLIED FORMULA</div>
+              <div id="liveFormulaEquation" class="font-mono-code text-xs text-slate-200 leading-relaxed">
+                Final = Subtotal (S) × (1 + Quality% + Density%)
+              </div>
+            </div>
+
+            <!-- Itemized Breakdown Lines -->
+            <div id="quoteBreakdownLines" class="space-y-2.5 text-xs border-b border-slate-800 pb-4">
+              <!-- Populated dynamically -->
+            </div>
+
+            <!-- Subtotal & Multiplier Summary -->
+            <div id="quoteMultiplierSection" class="space-y-2 text-xs border-b border-slate-800 pb-4">
+              <!-- Populated dynamically -->
+            </div>
+
+            <!-- Quantity & Role Account Discount Toggle -->
+            <div class="space-y-3 border-b border-slate-800 pb-4 text-xs">
+              <div class="flex items-center justify-between">
+                <label for="quoteQty" id="lblQuantity" class="text-slate-300 font-medium">Order Quantity (수량)</label>
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="adjustQty(-1)" class="w-7 h-7 rounded bg-slate-800 hover:bg-slate-700 text-white font-bold">-</button>
+                  <input type="number" id="quoteQty" value="1" min="1" max="500" oninput="recalculate()"
+                    class="w-16 text-center font-mono-code text-xs bg-slate-900 border border-slate-700 rounded py-1 text-white"/>
+                  <button type="button" onclick="adjustQty(1)" class="w-7 h-7 rounded bg-slate-800 hover:bg-slate-700 text-white font-bold">+</button>
+                </div>
+              </div>
+
+              <label class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 cursor-pointer">
+                <div class="flex items-center gap-2.5">
+                  <input type="checkbox" id="chkApplyAccountDiscount" onchange="recalculate()"
+                    class="rounded border-slate-600 bg-slate-800 text-blue-500 focus:ring-blue-500 w-4 h-4"/>
+                  <div>
+                    <div id="lblApplyRoleDiscount" class="font-semibold text-slate-200">Apply My Account Tier Discount</div>
+                    <div id="lblRoleDiscountDetail" class="text-[11px] font-mono-code text-slate-400">Tier: - (0% OFF)</div>
+                  </div>
+                </div>
+                <span id="valRoleDiscountAmount" class="font-mono-code text-xs font-semibold text-emerald-400">-AUD $0.00</span>
+              </label>
+            </div>
+
+            <!-- Final Total Display -->
+            <div class="space-y-2">
+              <div class="flex items-baseline justify-between">
+                <span id="lblUnitPriceFinal" class="text-xs uppercase tracking-wider font-bold text-slate-400">UNIT FINAL PRICE (AUD)</span>
+                <span id="valUnitPriceFinal" class="font-mono-code text-2xl font-bold text-white">AUD $510.66</span>
+              </div>
+              <div class="flex items-baseline justify-between pt-1">
+                <span id="lblGrandTotalFinal" class="text-xs uppercase tracking-wider font-bold text-teal-300">TOTAL ESTIMATE (AUD)</span>
+                <span id="valGrandTotalFinal" class="font-mono-code text-3xl font-bold text-teal-300">AUD $510.66</span>
+              </div>
+            </div>
+
+            <!-- Copy Quote Summary Button -->
+            <div class="pt-2 flex gap-2">
+              <button type="button" onclick="copyQuoteSummary()"
+                class="flex-1 py-2.5 px-4 rounded-lg bg-[#1E3A5F] hover:bg-blue-800 text-white text-xs font-bold flex items-center justify-center gap-2 transition-colors border border-blue-700/60">
+                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                <span id="btnCopyQuote">Copy Official Quote Text</span>
+              </button>
+            </div>
+            <div id="copyToast" class="hidden text-center text-xs font-mono-code text-emerald-400"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- SECTION C: FULL REFERENCE PRICE TABLES (hair_aud_en.md / hair_aud.md) -->
+      <!-- =================================================================== -->
+      <section id="referenceTablesSection" class="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm space-y-8">
+        <div class="border-b border-slate-200 pb-4 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 id="refTablesHeading" class="text-lg font-bold text-[#0F172A]">
+              Complete Reference Pricing Tables & Men's vs. Women's Specification Matrix (AUD)
+            </h2>
+            <p id="refTablesSub" class="text-xs text-slate-500 mt-0.5">
+              Source: hair_aud_en.md & hair_aud.md (1 USD = 1.4632 AUD)
+            </p>
+          </div>
+        </div>
+
+        <div id="referenceTablesContent" class="space-y-8 text-xs">
+          <!-- Populated dynamically in EN-AU or KO-KR -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    // =========================================================================
+    // 1. EXACT DATA DEFINITIONS FROM hair_aud_en.md & hair_aud.md (AUD ONLY)
+    // =========================================================================
+    const STARTING_BASE_PRICE_AUD = 510.66;
+
+    const BASE_SIZES = [
+      {
+        id: 'std_70',
+        areaRange: '≤ 70 sq in',
+        sampleDim: '6"×7", 7"×9", 7"×10"',
+        defaultW: 7,
+        defaultL: 9,
+        addOn: 0.00,
+        enName: 'Small / Standard Topper & Men\'s Standard (≤ 70 sq in)',
+        koName: '소형 / 기본형 (70 sq in 이하 — 남성 기본 및 여성 가르마/정수리 탑퍼)',
+        enDesc: '6"×7" (42 sq in), 7"×9" (63 sq in), 7"×10" (70 sq in) — Lace, Skin, Mono',
+        koDesc: '6"×7" (42 sq in), 7"×9" (63 sq in), 7"×10" (70 sq in) — 레이스, 스킨, 모노 기본'
+      },
+      {
+        id: 'large_80',
+        areaRange: '70 ~ 80 sq in',
+        sampleDim: '8"×10" (80 sq in)',
+        defaultW: 8,
+        defaultL: 10,
+        addOn: 58.53,
+        enName: 'Large / Medium-Wide Topper (70 ~ 80 sq in)',
+        koName: '대형 / 중대형 탑퍼 (70 ~ 80 sq in — 8"×10" 등)',
+        enDesc: 'Men\'s large base or Women\'s medium-wide crown topper (8"×10")',
+        koDesc: '남성 대형 두상 및 여성 중대형 정수리 커버 탑퍼 (8"×10")'
+      },
+      {
+        id: 'xwide_100',
+        areaRange: '80 ~ 100 sq in',
+        sampleDim: '9"×10", 10"×10"',
+        defaultW: 9,
+        defaultL: 10,
+        addOn: 146.32,
+        enName: 'Extra-Wide Topper (80 ~ 100 sq in)',
+        koName: '특대형 와이드 탑퍼 (80 ~ 100 sq in — 9"×10", 10"×10")',
+        enDesc: 'Women\'s wide volume & broad crown coverage topper',
+        koDesc: '여성 광범위 정수리·전체 볼륨 보강용 와이드 탑퍼'
+      },
+      {
+        id: 'fullcap_100',
+        areaRange: '> 100 sq in',
+        sampleDim: 'Full Head Cap',
+        defaultW: 11,
+        defaultL: 11,
+        addOn: 292.64,
+        enName: 'Full Cap Wig (> 100 sq in)',
+        koName: '풀캡 전체 가발 (Full Cap Wig — 100 sq in 초과)',
+        enDesc: 'Women\'s & medical full-head custom wig (Stretch lace, ear tabs, adjustable strap)',
+        koDesc: '여성용 패션/항암 전체 가발 및 전두 탈모용 맞춤 풀위그'
+      },
+      {
+        id: 'oversized_144',
+        areaRange: '> 144 sq in',
+        sampleDim: 'Oversized Full Cap',
+        defaultW: 12.5,
+        defaultL: 12,
+        addOn: 394.77, // 292.64 + 20% of 510.66 (102.13)
+        enName: 'Oversized Full Cap (> 144 sq in)',
+        koName: '초대형 풀캡 (144 sq in 초과 — 풀캡 + 기본가의 20% 할증)',
+        enDesc: '+AUD $292.64 Full Cap + 20% of Starting Base (+AUD $102.13) = +AUD $394.77',
+        koDesc: '풀캡 추가금(+AUD $292.64) + 시작 기본가의 20%(+AUD $102.13) = +AUD $394.77'
+      }
+    ];
+
+    const HAIR_LENGTHS = [
+      { inches: 6, label: '5" ~ 6" (13~15cm)', addOn: 0.00, enNote: 'Men\'s Std (Included)', koNote: '남성 표준 (기본 포함)' },
+      { inches: 8, label: '8" (20cm)', addOn: 58.53, enNote: 'Men\'s Long / Short Bob', koNote: '남성 장발 / 여성 숏단발' },
+      { inches: 10, label: '10" (25cm)', addOn: 102.42, enNote: 'Women\'s Bob Topper', koNote: '여성 단발 탑퍼' },
+      { inches: 12, label: '12" (30cm)', addOn: 160.95, enNote: 'Shoulder Length', koNote: '어깨 기장 (인기)' },
+      { inches: 14, label: '14" (35cm)', addOn: 263.38, enNote: 'Medium-Long', koNote: '미디엄 롱 기장' },
+      { inches: 16, label: '16" (40cm)', addOn: 409.70, enNote: 'Chest Length Long', koNote: '가슴선 롱 기장' },
+      { inches: 18, label: '18" (45cm)', addOn: 556.02, enNote: 'Long Wave Wig', koNote: '긴머리 웨이브 풀위그' },
+      { inches: 20, label: '20" (50cm)', addOn: 702.34, enNote: 'Extra-Long Premium', koNote: '특장발 프리미엄' }
+    ];
+
+    const HAIR_QUALITIES = [
+      {
+        id: 'indian',
+        rate: 0.00,
+        rateText: '+0%',
+        enName: 'Standard Indian Human Hair',
+        koName: '일반 인디언 인모 (Indian Hair)',
+        enDesc: 'Included — Men\'s basic custom',
+        koDesc: '기본 포함 — 남성 기본 맞춤'
+      },
+      {
+        id: 'remy',
+        rate: 0.40,
+        rateText: '+40%',
+        enName: 'Remy Human Hair (Intact Cuticle)',
+        koName: '레미 인모 (Remy Hair — 큐티클 보존)',
+        enDesc: 'Recommended for Women\'s ≥ 12" & Men\'s premium',
+        koDesc: '엉킴 방지 · 여성 12" 이상 필수 권장'
+      },
+      {
+        id: 'european',
+        rate: 0.40,
+        rateText: '+40%',
+        enName: 'European Hair (Fine & Silky)',
+        koName: '유러피언 인모 (European Hair)',
+        enDesc: 'Ultra-soft texture (Up to 14")',
+        koDesc: '가늘고 부드러운 유럽산 천연모 (14" 이하)'
+      },
+      {
+        id: 'virgin',
+        rate: 0.70,
+        rateText: '+70%',
+        enName: 'Premium Virgin Hair (Unprocessed)',
+        koName: '프리미엄 버진 헤어 (Virgin Hair)',
+        enDesc: 'Top-tier luxury Women\'s Topper & Full Wig',
+        koDesc: '무염색·무가공 최상급 여성 풀위그/탑퍼'
+      }
+    ];
+
+    const HAIR_DENSITIES = [
+      {
+        id: 'light_100',
+        baseRate: 0.00,
+        enName: 'Light ~ Medium-Light (60% ~ 100%)',
+        koName: '라이트 ~ 미디엄 라이트 (60% ~ 100%)',
+        enDesc: 'Included (+0%) — Standard Men\'s density',
+        koDesc: '기본 포함 (+0%) — 남성 자연스러운 숱'
+      },
+      {
+        id: 'medium_110',
+        baseRate: 0.00,
+        longHairRate: 0.15, // +15% when Hair Length >= 12"
+        enName: 'Medium (110%)',
+        koName: '미디엄 (110% — 여성 탑퍼 기본 볼륨)',
+        enDesc: '+0% under 12" / +15% when Length ≥ 12"',
+        koDesc: '12" 미만 +0% / 12" 이상 장발 시 +15%'
+      },
+      {
+        id: 'med_heavy_130',
+        baseRate: 0.25,
+        enName: 'Medium-Heavy (120% ~ 130%)',
+        koName: '미디엄 헤비 (120% ~ 130% — 여성 풍성한 볼륨)',
+        enDesc: '+25% of Subtotal (S)',
+        koDesc: '소계(S)의 +25% 할증'
+      },
+      {
+        id: 'heavy_140',
+        baseRate: 0.35,
+        enName: 'Heavy (140% ~ 150%+)',
+        koName: '헤비 / 엑스트라 헤비 (140% ~ 150%+)',
+        enDesc: '+35% of Subtotal (S)',
+        koDesc: '소계(S)의 +35% 할증'
+      }
+    ];
+
+    const FIXED_ADDONS = [
+      { id: 'highlights', price: 21.95, enName: 'Spot Highlights / Baby Hair', koName: '포인트 하이라이트 / 잔머리(Baby Hair)' },
+      { id: 'clips', price: 21.95, enName: 'Pressure-Sensitive Clips (4–6 pcs, Women\'s Topper)', koName: '여성 탑퍼 똑딱이 클립 장착 (4~6개)' },
+      { id: 'bleached', price: 27.80, enName: 'All-Over Bleached Knots', koName: '전체 매듭 탈색 (All-Over Bleached Knots)' },
+      { id: 'grey_root', price: 29.26, enName: 'Human Grey Hair Blend / Darkened Root Dye', koName: '인모 흰머리(Grey) 혼합 / 뿌리 염색(Root Dye)' },
+      { id: 'zyrosen', price: 43.90, enName: 'Antibacterial Base (ZyroSen) / Afro Curl', koName: '항균 베이스 코팅 (ZyroSen) / 아프로 펌' },
+      { id: 'balayage', price: 58.53, enName: 'Balayage / Ombré Two-Tone Special Coloring', koName: '발레아쥬 / 옴브레 투톤 특수 염색 (여성 인기)' },
+      { id: 'cut_in', price: 58.53, enName: 'Professional Stylist Cut-In & Styling', koName: '전문 스타일리스트 커트 & 스타일링 출고' },
+      { id: 'rush', price: 86.33, enName: 'Rush Production Service (6–7 Weeks)', koName: '급행 제작 서비스 (Rush Order, 6~7주 단축)' }
+    ];
+
+    const STOCK_MODELS = {
+      men: [
+        { id: 'm_frontal', min: 160.95, max: 226.80, def: 193.88, enName: 'Frontal (Receding Hairline) — SuperSkin-F', koName: '부분/M자 헤어라인 보강용 — SuperSkin-F' },
+        { id: 'm_uts', min: 283.86, max: 349.70, def: 316.78, enName: '0.03mm Ultra-Thin Skin — UTS (Ultra-natural)', koName: '0.03mm 초극박 스킨 — UTS (초자연 밀착형)' },
+        { id: 'm_thin', min: 298.49, max: 364.34, def: 331.42, enName: '0.06–0.08mm Thin Skin — SuperSkin-V, Inception', koName: '0.06~0.08mm 얇은 스킨 — SuperSkin-V, Inception' },
+        { id: 'm_mono', min: 305.81, max: 415.55, def: 360.68, enName: 'Fine Mono + Skin Perimeter — Vigor, Royal', koName: '파인 모노 + 스킨 테두리 — Vigor, Royal (내구성 최고)' },
+        { id: 'm_lace', min: 415.55, max: 481.39, def: 448.47, enName: 'Full Lace — Champion (100% Breathable French/Swiss)', koName: '풀 레이스 — Champion (통기성 100% 프렌치/스위스)' },
+        { id: 'm_hybrid', min: 386.28, max: 496.02, def: 441.15, enName: 'Hybrid (Lace + Skin) — Neo, Combo', koName: '하이브리드 (레이스+스킨) — Neo, Combo' }
+      ],
+      women: [
+        { id: 'w_mini', min: 261.91, max: 393.60, def: 327.76, enName: 'Mini Parting Topper (3"×5" ~ 5"×5", 8"–12" Remy)', koName: '미니 가르마 탑퍼 (3"×5" ~ 5"×5", 8"~12" 레미모)' },
+        { id: 'w_aura', min: 437.50, max: 671.61, def: 554.56, enName: 'Silk Top Topper — Aura (6"×7", 12"–16" Remy)', koName: '실크탑 정수리 탑퍼 — Aura (6"×7", 12"~16" 레미모)' },
+        { id: 'w_wide', min: 656.98, max: 790.13, def: 723.56, enName: 'Wide Long-Length Topper (8"×8", 14"–18" Euro/Remy)', koName: '와이드 장발 탑퍼 (8"×8", 14"~18" 유러피언/레미모)' },
+        { id: 'w_fullwig', min: 730.14, max: 1243.72, def: 986.93, enName: 'Medical / Full Cap Wig (Full Lace / Silk Top, 12"–20")', koName: '여성 패션 / 메디컬 풀캡 가발 (풀레이스/실크탑, 12"~20")' }
+      ]
+    };
+
+    // 8 Practical Quote Examples from Section 4 of hair_aud_en.md / hair_aud.md
+    const PRESET_EXAMPLES = [
+      {
+        id: 'ex_m1',
+        badge: 'MEN #1',
+        expectedTotal: 510.66,
+        enTitle: 'Men\'s Ex 1: Standard Crown Coverage',
+        koTitle: '남성 예시 1: 기본형 맞춤 가발',
+        enSpec: '7"×9" Base, 6" Indian Hair, 100% Density',
+        koSpec: '7"×9" 기본 베이스, 6" 일반 인모, 밀도 100%',
+        config: { baseId: 'std_70', w: 7, l: 9, silkTop: false, lengthIn: 6, qualityId: 'indian', densityId: 'light_100', addons: [] }
+      },
+      {
+        id: 'ex_m2',
+        badge: 'MEN #2',
+        expectedTotal: 753.84,
+        enTitle: 'Men\'s Ex 2: Exposed Hairline (Remy + Bleached)',
+        koTitle: '남성 예시 2: 이마 노출형 고급 맞춤 (레미모 + 매듭탈색)',
+        enSpec: '7"×9" Base, 6" Remy (+40%), Bleached Knots (+AUD $27.80)',
+        koSpec: '7"×9" 기본, 6" 레미모(+40%), 전체 매듭 탈색(+$27.80)',
+        config: { baseId: 'std_70', w: 7, l: 9, silkTop: false, lengthIn: 6, qualityId: 'remy', densityId: 'light_100', addons: ['bleached'] }
+      },
+      {
+        id: 'ex_m3',
+        badge: 'MEN #3',
+        expectedTotal: 656.98,
+        enTitle: 'Men\'s Ex 3: Large Base + Grey Hair + Cut-In',
+        koTitle: '남성 예시 3: 대형 사이즈 + 인모 흰머리 + 커트',
+        enSpec: '8"×10" (+$58.53), 6" Indian, Grey Blend (+$29.26), Cut-In (+$58.53)',
+        koSpec: '8"×10"(+$58.53), 인모 흰머리(+$29.26), 커트(+$58.53)',
+        config: { baseId: 'large_80', w: 8, l: 10, silkTop: false, lengthIn: 6, qualityId: 'indian', densityId: 'light_100', addons: ['grey_root', 'cut_in'] }
+      },
+      {
+        id: 'ex_w1',
+        badge: 'WOMEN #1',
+        expectedTotal: 700.87,
+        enTitle: 'Women\'s Ex 1: Silk Top Chin-Length Bob (10")',
+        koTitle: '여성 예시 1: 정수리 볼륨 실크탑 탑퍼 (단발 10")',
+        enSpec: '6"×7" Base, Silk Top (+$87.79), 10" (+$102.42), Indian, 100%',
+        koSpec: '6"×7" 기본, 실크탑(+$87.79), 10" 기장(+$102.42), 일반 인모',
+        config: { baseId: 'std_70', w: 6, l: 7, silkTop: true, lengthIn: 10, qualityId: 'indian', densityId: 'light_100', addons: [] }
+      },
+      {
+        id: 'ex_w2',
+        badge: 'WOMEN #2',
+        expectedTotal: 1277.17,
+        enTitle: 'Women\'s Ex 2: 14" Mid-Length Topper (Remy + 120%)',
+        koTitle: '여성 예시 2: 중장발 14" 탑퍼 (레미모 + 120% 풍성한 숱)',
+        enSpec: '6"×7" Std Base, 14" (+$263.38), Remy (+40%), 120% (+25%)',
+        koSpec: '기본 베이스, 14" 기장(+$263.38), 레미모(+40%), 120% 밀도(+25%)',
+        config: { baseId: 'std_70', w: 6, l: 7, silkTop: false, lengthIn: 14, qualityId: 'remy', densityId: 'med_heavy_130', addons: [] }
+      },
+      {
+        id: 'ex_w3',
+        badge: 'WOMEN #3',
+        expectedTotal: 1711.74,
+        enTitle: 'Women\'s Ex 3: 16" Long Balayage Wide Topper',
+        koTitle: '여성 예시 3: 16" 장발 발레아쥬 와이드 탑퍼',
+        enSpec: '8"×9" (+$58.53), 16" (+$409.70), Balayage (+$58.53), Remy (+40%), 120% (+25%)',
+        koSpec: '8"×9"(+$58.53), 16"(+$409.70), 발레아쥬(+$58.53), 레미(+40%), 120%(+25%)',
+        config: { baseId: 'large_80', w: 8, l: 9, silkTop: false, lengthIn: 16, qualityId: 'remy', densityId: 'med_heavy_130', addons: ['balayage'] }
+      },
+      {
+        id: 'ex_w4',
+        badge: 'WOMEN #4',
+        expectedTotal: 1735.87,
+        enTitle: 'Women\'s Ex 4: 12" Medical Silk Top Full Cap Wig',
+        koTitle: '여성 예시 4: 항암/전두 탈모용 메디컬 풀캡 가발 (실크탑 12")',
+        enSpec: 'Full Cap (+$292.64), Silk Top (+$87.79), 12" (+$160.95), Remy (+40%), 130% (+25%)',
+        koSpec: '풀캡(+$292.64), 실크탑(+$87.79), 12"(+$160.95), 레미(+40%), 130%(+25%)',
+        config: { baseId: 'fullcap_100', w: 11, l: 11, silkTop: true, lengthIn: 12, qualityId: 'remy', densityId: 'med_heavy_130', addons: [] }
+      },
+      {
+        id: 'ex_w5',
+        badge: 'WOMEN #5',
+        expectedTotal: 2786.61,
+        enTitle: 'Women\'s Ex 5: 18" Luxury Virgin Hair Full Cap Wig',
+        koTitle: '여성 예시 5: 최고급 버진 헤어 18" 롱 풀캡 통가발',
+        enSpec: 'Full Cap (+$292.64), 18" (+$556.02), Virgin Hair (+70%), 140% Heavy (+35%)',
+        koSpec: '풀캡(+$292.64), 18" 장발(+$556.02), 버진 헤어(+70%), 140% 헤비(+35%)',
+        config: { baseId: 'fullcap_100', w: 11, l: 11, silkTop: false, lengthIn: 18, qualityId: 'virgin', densityId: 'heavy_140', addons: [] }
+      }
+    ];
+
+    // =========================================================================
+    // 2. STATE MANAGEMENT
+    // =========================================================================
+    let currentUser = null;
+    let calcMode = 'custom'; // 'custom' | 'stock' | 'tables'
+    let activePresetId = 'ex_m1';
+
+    // Custom Order State
+    let customState = {
+      baseId: 'std_70',
+      silkTop: false,
+      lengthIn: 6,
+      qualityId: 'indian',
+      densityId: 'light_100',
+      addons: new Set()
+    };
+
+    // Stock Order State
+    let stockState = {
+      category: 'men',
+      modelId: 'm_uts',
+      customBasePrice: 316.78,
+      baseCut: false,
+      cutIn: false
+    };
+
+    function fmtAUD(val) {
+      return 'AUD $' + Number(val || 0).toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function switchLang(lang) {
+      JoomoonApp.setLang(lang);
+      renderAll();
+    }
+
+    async function logout() {
+      await fetch('api_auth.php?action=logout', { method: 'POST' });
+      window.location.href = 'index.html';
+    }
+
+    async function handleQuickSwitch(loginId) {
+      if (!loginId) return;
+      const res = await fetch('api_auth.php?action=quick_login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ login_id: loginId })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        await initPage();
+      }
+    }
+
+    function setCalcMode(mode) {
+      calcMode = mode;
+      const customPanel = document.getElementById('customOrderFormPanel');
+      const stockPanel = document.getElementById('stockSystemFormPanel');
+      const calcWorkspace = document.getElementById('calculatorWorkspace');
+      const presetsSec = document.getElementById('presetsSection');
+
+      if (mode === 'custom') {
+        customPanel.classList.remove('hidden');
+        stockPanel.classList.add('hidden');
+        calcWorkspace.classList.remove('hidden');
+        presetsSec.classList.remove('hidden');
+      } else if (mode === 'stock') {
+        customPanel.classList.add('hidden');
+        stockPanel.classList.remove('hidden');
+        calcWorkspace.classList.remove('hidden');
+        presetsSec.classList.add('hidden');
+      } else {
+        // 'tables' mode scrolls/highlights full reference tables while keeping calculator accessible
+        document.getElementById('referenceTablesSection').scrollIntoView({ behavior: 'smooth' });
+      }
+      renderModeTabs();
+      recalculate();
+    }
+
+    function renderModeTabs() {
+      const lang = JoomoonApp.getLang();
+      const btnCustom = document.getElementById('tabBtnCustom');
+      const btnStock = document.getElementById('tabBtnStock');
+      const btnTables = document.getElementById('tabBtnTables');
+
+      btnCustom.textContent = lang === 'ko-KR' ? '1. 맞춤 가발 계산기 (Custom)' : '1. Custom Order Calculator';
+      btnStock.textContent = lang === 'ko-KR' ? '2. 기성 가발 계산기 (Stock)' : '2. Stock System Calculator';
+      btnTables.textContent = lang === 'ko-KR' ? '3. 전체 단가표 전문 (AUD Tables)' : '3. Full Reference Tables (AUD)';
+
+      const activeCls = 'px-4 py-2 rounded-lg text-xs font-bold bg-[#1E3A5F] text-white shadow-sm transition-all';
+      const inactiveCls = 'px-4 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-[#0F172A] transition-all';
+
+      btnCustom.className = calcMode === 'custom' ? activeCls : inactiveCls;
+      btnStock.className = calcMode === 'stock' ? activeCls : inactiveCls;
+      btnTables.className = calcMode === 'tables' ? activeCls : inactiveCls;
+    }
+
+    // =========================================================================
+    // 3. UI RENDERING (SIDEBAR, HEADER, PRESETS, INPUT CONTROLS)
+    // =========================================================================
+    function renderSidebarAndHeader() {
+      const lang = JoomoonApp.getLang();
+      document.getElementById('langBtnEn').className = lang === 'en-AU'
+        ? 'px-2.5 py-1 rounded-md text-xs font-semibold bg-[#1E3A5F] text-white'
+        : 'px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600 hover:bg-slate-200/70';
+      document.getElementById('langBtnKo').className = lang === 'ko-KR'
+        ? 'px-2.5 py-1 rounded-md text-xs font-semibold bg-[#1E3A5F] text-white'
+        : 'px-2.5 py-1 rounded-md text-xs font-semibold text-slate-600 hover:bg-slate-200/70';
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = JoomoonApp.t(el.getAttribute('data-i18n'));
+      });
+
+      document.getElementById('topPageTitle').textContent = lang === 'ko-KR'
+        ? '데이비드 헤어 공장 남·여 가발 통합 견적 계산기 (AUD 전용)'
+        : 'David Hair Factory Men\'s & Women\'s Hair System Quote Calculator (AUD)';
+      document.getElementById('btnBackPortal').textContent = lang === 'ko-KR' ? '랜딩 대시보드' : 'Landing Portal';
+
+      document.getElementById('calcMainHeading').textContent = lang === 'ko-KR'
+        ? '데이비드 헤어 공장 남·여 가발 통합 가격 및 견적 계산기 (호주 달러 AUD 전용)'
+        : 'David Hair Factory Men\'s & Women\'s Hair System Pricing & Quote Calculator (AUD Only)';
+      document.getElementById('calcMainSubheading').textContent = lang === 'ko-KR'
+        ? '기성 가발(Stock Systems) 및 맞춤 가발(Custom Orders: 남성 부분가발 · 여성 정수리 탑퍼 · 풀캡 통가발) 실시간 공식 계산기'
+        : 'Interactive AUD pricing formula engine for Stock Systems and Custom Orders (Men\'s Toupees, Women\'s Toppers & Full Cap Wigs).';
+
+      if (!currentUser) return;
+      const u = currentUser;
+      document.getElementById('sidebarRoleBadge').textContent = u.user_type;
+      document.getElementById('sidebarUserCode').textContent = u.user_code;
+      document.getElementById('sidebarCountryCurrency').textContent = `${JoomoonApp.countryFlag(u.country)} · ${u.currency}`;
+      document.getElementById('sidebarDisplayName').textContent = u.company_name || u.manager_name || u.login_id;
+      document.getElementById('sidebarSubName').textContent = `${u.manager_name || ''} (${u.login_id})`;
+      document.getElementById('sidebarMenuHeader').textContent = JoomoonApp.t('menuHeader_' + u.user_type);
+      document.getElementById('topUserCodePill').textContent = `${u.user_code} · ${u.user_type}`;
+
+      document.getElementById('rolePricingBadge').textContent = lang === 'ko-KR'
+        ? `현재 계정: ${u.user_type} · 등급 ${u.price_tier.toUpperCase()} (할인율 ${u.discount_rate}%)`
+        : `Active Role: ${u.user_type} · Tier ${u.price_tier.toUpperCase()} (${u.discount_rate}% Discount)`;
+
+      document.getElementById('lblApplyRoleDiscount').textContent = lang === 'ko-KR'
+        ? `내 계정 약정 할인율 적용 (${u.company_name || u.manager_name})`
+        : `Apply My Account Tier Discount (${u.company_name || u.manager_name})`;
+      document.getElementById('lblRoleDiscountDetail').textContent = lang === 'ko-KR'
+        ? `등급: ${u.price_tier.toUpperCase()} (${u.discount_rate}% 할인)`
+        : `Tier: ${u.price_tier.toUpperCase()} (${u.discount_rate}% OFF)`;
+
+      const menus = JoomoonApp.roleMenus(u.user_type, 'calculation', 'calculation');
+      document.getElementById('sidebarNavList').innerHTML = menus.map(m => {
+        const isActive = m.id === 'calculation';
+        const cls = isActive
+          ? 'bg-[#1E3A5F] text-white font-semibold border border-blue-800/60'
+          : 'text-slate-300 hover:bg-slate-800/80 hover:text-white';
+        return `
+          <a href="${m.href}" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-xs transition-colors ${cls}">
+            <span class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px]">${m.icon}</span>
+              <span>${JoomoonApp.t(m.labelKey)}</span>
+            </span>
+            ${m.badge ? `<span class="font-mono-code text-[10px] px-1.5 py-0.5 rounded bg-slate-900/80 text-slate-200">${m.badge}</span>` : ''}
+          </a>
+        `;
+      }).join('');
+    }
+
+    function renderPresets() {
+      const lang = JoomoonApp.getLang();
+      document.getElementById('presetSectionTitle').textContent = lang === 'ko-KR'
+        ? '섹션 4. 남·여 실전 견적 산출 예시 8선 (클릭 시 계산기에 즉시 자동 입력)'
+        : 'SECTION 4. PRACTICAL QUOTE EXAMPLES (CLICK ANY CARD TO LOAD SPECS)';
+      document.getElementById('presetSectionHint').textContent = lang === 'ko-KR'
+        ? '남성 맞춤 3종 + 여성 맞춤 5종 (hair_aud.md / hair_aud_en.md 공식 검증 완료)'
+        : '3 Men\'s Custom + 5 Women\'s Custom verified examples from hair_aud_en.md';
+
+      document.getElementById('presetButtonsGrid').innerHTML = PRESET_EXAMPLES.map(ex => {
+        const isSelected = calcMode === 'custom' && activePresetId === ex.id;
+        const borderCls = isSelected
+          ? 'border-2 border-[#1E3A5F] bg-blue-50/40 shadow-sm'
+          : 'border border-slate-200 bg-[#F8FAFC] hover:border-slate-400 hover:bg-white';
+        const badgeCls = ex.id.startsWith('ex_m')
+          ? 'bg-slate-800 text-white'
+          : 'bg-teal-700 text-white';
+
+        return `
+          <button type="button" onclick="loadPreset('${ex.id}')"
+            class="text-left p-3 rounded-xl transition-all flex flex-col justify-between gap-2 ${borderCls}">
+            <div>
+              <div class="flex items-center justify-between gap-1 mb-1">
+                <span class="font-mono-code text-[10px] font-bold px-2 py-0.5 rounded ${badgeCls}">${ex.badge}</span>
+                <span class="font-mono-code text-xs font-bold text-[#1E3A5F]">${fmtAUD(ex.expectedTotal)}</span>
+              </div>
+              <div class="text-xs font-bold text-[#0F172A] line-clamp-1">${lang === 'ko-KR' ? ex.koTitle : ex.enTitle}</div>
+              <div class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">${lang === 'ko-KR' ? ex.koSpec : ex.enSpec}</div>
+            </div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function loadPreset(presetId) {
+      const ex = PRESET_EXAMPLES.find(p => p.id === presetId);
+      if (!ex) return;
+      activePresetId = presetId;
+      calcMode = 'custom';
+      customState.baseId = ex.config.baseId;
+      customState.silkTop = !!ex.config.silkTop;
+      customState.lengthIn = ex.config.lengthIn;
+      customState.qualityId = ex.config.qualityId;
+      customState.densityId = ex.config.densityId;
+      customState.addons = new Set(ex.config.addons || []);
+
+      document.getElementById('inWidth').value = ex.config.w;
+      document.getElementById('inLength').value = ex.config.l;
+      document.getElementById('chkSilkTop').checked = customState.silkTop;
+
+      setCalcMode('custom');
+      renderCustomControls();
+      renderPresets();
+      recalculate();
+    }
+
+    function resetCustomCalculator() {
+      loadPreset('ex_m1');
+      document.getElementById('quoteQty').value = 1;
+      document.getElementById('chkApplyAccountDiscount').checked = false;
+      recalculate();
+    }
+
+    function calcAreaHelper() {
+      const w = parseFloat(document.getElementById('inWidth').value || 0);
+      const l = parseFloat(document.getElementById('inLength').value || 0);
+      const badge = document.getElementById('areaComputedBadge');
+      if (w > 0 && l > 0) {
+        const area = +(w * l).toFixed(1);
+        let targetId = 'std_70';
+        if (area <= 70) targetId = 'std_70';
+        else if (area <= 80) targetId = 'large_80';
+        else if (area <= 100) targetId = 'xwide_100';
+        else if (area <= 144) targetId = 'fullcap_100';
+        else targetId = 'oversized_144';
+
+        badge.textContent = `${w}"×${l}" = ${area} sq in`;
+        customState.baseId = targetId;
+        activePresetId = null;
+        renderCustomControls();
+        renderPresets();
+        recalculate();
+      }
+    }
+
+    function selectBaseSize(id) {
+      customState.baseId = id;
+      activePresetId = null;
+      const found = BASE_SIZES.find(b => b.id === id);
+      if (found) {
+        document.getElementById('inWidth').value = found.defaultW;
+        document.getElementById('inLength').value = found.defaultL;
+        document.getElementById('areaComputedBadge').textContent = `${found.defaultW}"×${found.defaultL}" (${found.areaRange})`;
+      }
+      renderCustomControls();
+      renderPresets();
+      recalculate();
+    }
+
+    function selectHairLength(inches) {
+      customState.lengthIn = inches;
+      activePresetId = null;
+      renderCustomControls();
+      renderPresets();
+      recalculate();
+    }
+
+    function selectHairQuality(id) {
+      customState.qualityId = id;
+      activePresetId = null;
+      renderCustomControls();
+      renderPresets();
+      recalculate();
+    }
+
+    function selectHairDensity(id) {
+      customState.densityId = id;
+      activePresetId = null;
+      renderCustomControls();
+      renderPresets();
+      recalculate();
+    }
+
+    function toggleAddon(id) {
+      if (customState.addons.has(id)) {
+        customState.addons.delete(id);
+      } else {
+        customState.addons.add(id);
+      }
+      activePresetId = null;
+      renderCustomControls();
+      renderPresets();
+      recalculate();
+    }
+
+    function renderCustomControls() {
+      const lang = JoomoonApp.getLang();
+
+      // Section Labels
+      document.getElementById('customFormTitle').textContent = lang === 'ko-KR'
+        ? '1.2 맞춤 가발 사양 설정 (Custom Order Cumulative Calculator)'
+        : '1.2 Custom Order Configuration (Cumulative Pricing Formula)';
+      document.getElementById('customFormSub').innerHTML = lang === 'ko-KR'
+        ? '맞춤 가발 시작 기본가: <span class="font-mono-code font-semibold text-[#1E3A5F]">AUD $510.66</span> (기본 베이스 70 sq in 이하, 5"~6" 일반 인모, 밀도 100% 이하 기준)'
+        : 'Starting Base Price: <span class="font-mono-code font-semibold text-[#1E3A5F]">AUD $510.66</span> (Standard base ≤ 70 sq in, 5"–6" Indian Hair, ≤ 100% density)';
+      document.getElementById('btnResetText').textContent = lang === 'ko-KR' ? '초기화' : 'Reset';
+      document.getElementById('lblStep1Base').textContent = lang === 'ko-KR'
+        ? 'STEP 1. 베이스 크기(면적) 및 캡 구조별 추가금'
+        : 'STEP 1. BASE SIZE & CAP CONSTRUCTION ADD-ON';
+      document.getElementById('lblAreaHelper').textContent = lang === 'ko-KR' ? '가로×세로(인치):' : 'Size (in):';
+      document.getElementById('lblSilkTopTitle').textContent = lang === 'ko-KR'
+        ? '실크탑 (Silk Top 2~3중 불투명 정수리/가르마) / 스킨 인젝션 업그레이드'
+        : 'Silk Top (2–3 Layer Injected Silk Parting) / Full Skin Injection Upgrade';
+      document.getElementById('lblSilkTopSub').textContent = lang === 'ko-KR'
+        ? '여성 탑퍼 및 고급 가르마 실제 두피 구현 필수 옵션 (+AUD $87.79)'
+        : 'Realistic knot-free scalp parting upgrade for Women\'s Toppers & premium systems (+AUD $87.79)';
+
+      document.getElementById('lblStep2Length').textContent = lang === 'ko-KR'
+        ? 'STEP 2. 모발 기장별 추가금 (5" ~ 20" / 13cm ~ 50cm)'
+        : 'STEP 2. HAIR LENGTH ADD-ON (5" TO 20")';
+      document.getElementById('lblStep3Quality').textContent = lang === 'ko-KR'
+        ? 'STEP 3-1. 모질(Hair Quality) 비율 할증 — 소계(S) 대비 %'
+        : 'STEP 3-1. HAIR QUALITY SURCHARGE (% OF SUBTOTAL S)';
+      document.getElementById('lblStep3Density').textContent = lang === 'ko-KR'
+        ? 'STEP 3-2. 모량/밀도(Hair Density) 비율 할증 — 소계(S) 대비 %'
+        : 'STEP 3-2. HAIR DENSITY SURCHARGE (% OF SUBTOTAL S)';
+      document.getElementById('lblStep4Addons').textContent = lang === 'ko-KR'
+        ? 'STEP 4. 기타 고정 옵션 추가금 (소계 S에 합산)'
+        : 'STEP 4. OTHER FIXED OPTION ADD-ONS (ADDED TO SUBTOTAL S)';
+
+      // 1. Base Size Cards
+      document.getElementById('baseSizeOptionsList').innerHTML = BASE_SIZES.map(b => {
+        const active = customState.baseId === b.id;
+        const cls = active
+          ? 'border-2 border-[#1E3A5F] bg-blue-50/40'
+          : 'border border-slate-200 hover:border-slate-300 bg-white';
+        return `
+          <div onclick="selectBaseSize('${b.id}')"
+            class="p-3 rounded-lg cursor-pointer transition-all flex items-center justify-between gap-3 ${cls}">
+            <div class="flex items-center gap-3">
+              <input type="radio" name="baseSizeRadio" ${active ? 'checked' : ''} class="text-[#1E3A5F] focus:ring-[#1E3A5F]"/>
+              <div>
+                <div class="text-xs font-bold text-[#0F172A]">${lang === 'ko-KR' ? b.koName : b.enName}</div>
+                <div class="text-[11px] text-slate-500">${lang === 'ko-KR' ? b.koDesc : b.enDesc}</div>
+              </div>
+            </div>
+            <span class="font-mono-code text-xs font-bold ${b.addOn > 0 ? 'text-[#1E3A5F]' : 'text-emerald-700'} shrink-0">
+              ${b.addOn > 0 ? '+' + fmtAUD(b.addOn) : (lang === 'ko-KR' ? '+AUD $0.00 (기본)' : '+AUD $0.00')}
+            </span>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('chkSilkTop').checked = customState.silkTop;
+
+      // 2. Hair Length Grid
+      document.getElementById('hairLengthGrid').innerHTML = HAIR_LENGTHS.map(h => {
+        const active = customState.lengthIn === h.inches;
+        const cls = active
+          ? 'border-2 border-[#1E3A5F] bg-[#1E3A5F] text-white'
+          : 'border border-slate-200 bg-white hover:border-slate-400 text-[#0F172A]';
+        const subCls = active ? 'text-blue-200' : 'text-slate-500';
+        const priceCls = active ? 'text-teal-300' : 'text-[#1E3A5F]';
+        return `
+          <button type="button" onclick="selectHairLength(${h.inches})"
+            class="p-2.5 rounded-lg text-left transition-all flex flex-col justify-between ${cls}">
+            <div class="text-xs font-bold">${h.label}</div>
+            <div class="text-[10px] ${subCls} mt-0.5">${lang === 'ko-KR' ? h.koNote : h.enNote}</div>
+            <div class="font-mono-code text-xs font-bold ${priceCls} mt-1.5">+${fmtAUD(h.addOn)}</div>
+          </button>
+        `;
+      }).join('');
+
+      // 3-1. Hair Quality
+      document.getElementById('hairQualityList').innerHTML = HAIR_QUALITIES.map(q => {
+        const active = customState.qualityId === q.id;
+        const cls = active
+          ? 'border-2 border-[#1E3A5F] bg-blue-50/40'
+          : 'border border-slate-200 bg-white hover:border-slate-300';
+        return `
+          <div onclick="selectHairQuality('${q.id}')"
+            class="p-2.5 rounded-lg cursor-pointer transition-all flex items-center justify-between gap-2 ${cls}">
+            <div>
+              <div class="text-xs font-bold text-[#0F172A]">${lang === 'ko-KR' ? q.koName : q.enName}</div>
+              <div class="text-[11px] text-slate-500">${lang === 'ko-KR' ? q.koDesc : q.enDesc}</div>
+            </div>
+            <span class="font-mono-code text-xs font-bold px-2 py-0.5 rounded ${q.rate > 0 ? 'bg-blue-100 text-[#1E3A5F]' : 'bg-emerald-50 text-emerald-700'}">
+              ${q.rateText}
+            </span>
+          </div>
+        `;
+      }).join('');
+
+      // 3-2. Hair Density
+      document.getElementById('hairDensityList').innerHTML = HAIR_DENSITIES.map(d => {
+        const active = customState.densityId === d.id;
+        const cls = active
+          ? 'border-2 border-[#1E3A5F] bg-blue-50/40'
+          : 'border border-slate-200 bg-white hover:border-slate-300';
+        let badge = `+${Math.round(d.baseRate * 100)}%`;
+        if (d.id === 'medium_110') {
+          badge = customState.lengthIn >= 12 ? '+15% (≥12")' : '+0% (<12")';
+        }
+        return `
+          <div onclick="selectHairDensity('${d.id}')"
+            class="p-2.5 rounded-lg cursor-pointer transition-all flex items-center justify-between gap-2 ${cls}">
+            <div>
+              <div class="text-xs font-bold text-[#0F172A]">${lang === 'ko-KR' ? d.koName : d.enName}</div>
+              <div class="text-[11px] text-slate-500">${lang === 'ko-KR' ? d.koDesc : d.enDesc}</div>
+            </div>
+            <span class="font-mono-code text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-[#0F172A] shrink-0">
+              ${badge}
+            </span>
+          </div>
+        `;
+      }).join('');
+
+      // 4. Fixed Add-ons
+      document.getElementById('fixedAddonsGrid').innerHTML = FIXED_ADDONS.map(a => {
+        const checked = customState.addons.has(a.id);
+        const cls = checked
+          ? 'border-2 border-[#1E3A5F] bg-blue-50/40'
+          : 'border border-slate-200 bg-white hover:bg-slate-50';
+        return `
+          <label class="p-3 rounded-lg cursor-pointer transition-all flex items-center justify-between gap-2 ${cls}">
+            <div class="flex items-center gap-2.5">
+              <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleAddon('${a.id}')"
+                class="rounded border-slate-300 text-[#1E3A5F] focus:ring-[#1E3A5F] w-4 h-4"/>
+              <span class="text-xs font-semibold text-[#0F172A]">${lang === 'ko-KR' ? a.koName : a.enName}</span>
+            </div>
+            <span class="font-mono-code text-xs font-bold text-[#1E3A5F] shrink-0">+${fmtAUD(a.price)}</span>
+          </label>
+        `;
+      }).join('');
+    }
+
+    // =========================================================================
+    // 4. STOCK SYSTEM CONTROLS
+    // =========================================================================
+    function setStockCategory(cat) {
+      stockState.category = cat;
+      const list = STOCK_MODELS[cat];
+      stockState.modelId = list[0].id;
+      stockState.customBasePrice = list[0].def;
+      renderStockControls();
+      recalculate();
+    }
+
+    function selectStockModel(modelId) {
+      stockState.modelId = modelId;
+      const list = STOCK_MODELS[stockState.category];
+      const found = list.find(m => m.id === modelId);
+      if (found) {
+        stockState.customBasePrice = found.def;
+      }
+      renderStockControls();
+      recalculate();
+    }
+
+    function syncStockPriceFromSlider(val) {
+      stockState.customBasePrice = parseFloat(val || 0);
+      document.getElementById('stockPriceInput').value = stockState.customBasePrice.toFixed(2);
+      recalculate();
+    }
+
+    function syncStockPriceFromInput(val) {
+      stockState.customBasePrice = parseFloat(val || 0);
+      document.getElementById('stockPriceSlider').value = stockState.customBasePrice;
+      recalculate();
+    }
+
+    function renderStockControls() {
+      const lang = JoomoonApp.getLang();
+      document.getElementById('stockFormTitle').textContent = lang === 'ko-KR'
+        ? '1.1 기성 가발 견적 계산 (Stock Systems — 즉시 출고 가능 제품)'
+        : '1.1 Stock Systems Calculator (Ready-to-Ship Models)';
+
+      const btnMen = document.getElementById('btnStockCatMen');
+      const btnWomen = document.getElementById('btnStockCatWomen');
+      btnMen.textContent = lang === 'ko-KR' ? '남성 기성 가발 (6종)' : 'Men\'s Stock (6 Models)';
+      btnWomen.textContent = lang === 'ko-KR' ? '여성 기성 탑퍼/풀위그 (4종)' : 'Women\'s Stock (4 Models)';
+
+      btnMen.className = stockState.category === 'men'
+        ? 'px-3 py-1.5 rounded-md text-xs font-bold bg-[#1E3A5F] text-white'
+        : 'px-3 py-1.5 rounded-md text-xs font-bold text-slate-600';
+      btnWomen.className = stockState.category === 'women'
+        ? 'px-3 py-1.5 rounded-md text-xs font-bold bg-teal-700 text-white'
+        : 'px-3 py-1.5 rounded-md text-xs font-bold text-slate-600';
+
+      const models = STOCK_MODELS[stockState.category];
+      document.getElementById('stockModelsList').innerHTML = models.map(m => {
+        const active = stockState.modelId === m.id;
+        const cls = active
+          ? 'border-2 border-[#1E3A5F] bg-blue-50/40'
+          : 'border border-slate-200 bg-white hover:border-slate-300';
+        return `
+          <div onclick="selectStockModel('${m.id}')"
+            class="p-3.5 rounded-lg cursor-pointer transition-all flex items-center justify-between gap-3 ${cls}">
+            <div class="flex items-center gap-3">
+              <input type="radio" name="stockModelRadio" ${active ? 'checked' : ''} class="text-[#1E3A5F] focus:ring-[#1E3A5F]"/>
+              <span class="text-xs font-bold text-[#0F172A]">${lang === 'ko-KR' ? m.koName : m.enName}</span>
+            </div>
+            <span class="font-mono-code text-xs font-bold text-[#1E3A5F] shrink-0">
+              ${fmtAUD(m.min)} ~ ${fmtAUD(m.max)}
+            </span>
+          </div>
+        `;
+      }).join('');
+
+      const activeModel = models.find(m => m.id === stockState.modelId) || models[0];
+      const slider = document.getElementById('stockPriceSlider');
+      const input = document.getElementById('stockPriceInput');
+      slider.min = activeModel.min;
+      slider.max = activeModel.max;
+      slider.value = stockState.customBasePrice;
+      input.value = stockState.customBasePrice.toFixed(2);
+      document.getElementById('lblStockRangeText').textContent = `Range: ${fmtAUD(activeModel.min)} ~ ${fmtAUD(activeModel.max)}`;
+    }
+
+    // =========================================================================
+    // 5. CORE FORMULA ENGINE (recalculate)
+    // =========================================================================
+    function adjustQty(delta) {
+      const el = document.getElementById('quoteQty');
+      const next = Math.max(1, parseInt(el.value || '1', 10) + delta);
+      el.value = next;
+      recalculate();
+    }
+
+    function recalculate() {
+      const lang = JoomoonApp.getLang();
+      const qty = Math.max(1, parseInt(document.getElementById('quoteQty').value || '1', 10));
+      const applyDiscount = document.getElementById('chkApplyAccountDiscount').checked;
+      const discountRate = (currentUser && applyDiscount) ? parseFloat(currentUser.discount_rate || 0) : 0;
+
+      // Sync Silk Top checkbox
+      customState.silkTop = document.getElementById('chkSilkTop').checked;
+
+      const linesBox = document.getElementById('quoteBreakdownLines');
+      const multBox = document.getElementById('quoteMultiplierSection');
+      const eqBox = document.getElementById('liveFormulaEquation');
+      const notice12 = document.getElementById('density12InchNotice');
+
+      let unitFinalAUD = 0;
+
+      if (calcMode === 'stock') {
+        const models = STOCK_MODELS[stockState.category];
+        const m = models.find(x => x.id === stockState.modelId) || models[0];
+        const basePrice = Number(stockState.customBasePrice || m.def);
+        const baseCut = document.getElementById('chkStockBaseCut').checked ? 21.95 : 0;
+        const cutIn = document.getElementById('chkStockCutIn').checked ? 58.53 : 0;
+
+        unitFinalAUD = +(basePrice + baseCut + cutIn).toFixed(2);
+
+        eqBox.textContent = `Final = Model Base (${fmtAUD(basePrice)}) + Base Cut (${fmtAUD(baseCut)}) + Cut-In (${fmtAUD(cutIn)})`;
+        linesBox.innerHTML = `
+          <div class="flex justify-between">
+            <span class="text-slate-300">${lang === 'ko-KR' ? m.koName : m.enName}</span>
+            <span class="font-mono-code font-semibold text-white">${fmtAUD(basePrice)}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">${lang === 'ko-KR' ? '베이스 크기 재단 (Base Cutting)' : 'Base Size Cutting to Template'}</span>
+            <span class="font-mono-code text-slate-200">+${fmtAUD(baseCut)}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">${lang === 'ko-KR' ? '스타일리스트 커트 & 스타일링' : 'Stylist Hair Cut-In & Styling'}</span>
+            <span class="font-mono-code text-slate-200">+${fmtAUD(cutIn)}</span>
+          </div>
+        `;
+        multBox.innerHTML = `
+          <div class="flex justify-between text-slate-400">
+            <span>${lang === 'ko-KR' ? '기성 가발 비율 할증' : 'Stock Percentage Multipliers'}</span>
+            <span class="font-mono-code">0% (Included)</span>
+          </div>
+        `;
+      } else {
+        // CUSTOM ORDER FORMULA:
+        // Subtotal (S) = 510.66 + Base Size Add-on + Silk Top + Hair Length Add-on + Fixed Add-ons
+        // Final Price = S * (1 + QualityRate + DensityRate)
+        const baseObj = BASE_SIZES.find(b => b.id === customState.baseId) || BASE_SIZES[0];
+        const silkAddOn = customState.silkTop ? 87.79 : 0.00;
+        const lenObj = HAIR_LENGTHS.find(h => h.inches === customState.lengthIn) || HAIR_LENGTHS[0];
+        const qualObj = HAIR_QUALITIES.find(q => q.id === customState.qualityId) || HAIR_QUALITIES[0];
+        const densObj = HAIR_DENSITIES.find(d => d.id === customState.densityId) || HAIR_DENSITIES[0];
+
+        let densityRate = densObj.baseRate;
+        if (densObj.id === 'medium_110' && lenObj.inches >= 12) {
+          densityRate = 0.15;
+          notice12.classList.remove('hidden');
+          notice12.textContent = lang === 'ko-KR'
+            ? '안내: 모발 기장 12인치 이상 + 미디엄(110%) 선택 시 장발 중량 보강을 위해 +15% 할증이 자동 적용됩니다.'
+            : 'Note: For Hair Length ≥ 12" with Medium (110%) density, a +15% surcharge is automatically applied.';
+        } else {
+          notice12.classList.add('hidden');
+        }
+
+        const selectedAddons = FIXED_ADDONS.filter(a => customState.addons.has(a.id));
+        const addonsSum = selectedAddons.reduce((acc, item) => acc + item.price, 0);
+
+        const subtotalS = +(STARTING_BASE_PRICE_AUD + baseObj.addOn + silkAddOn + lenObj.addOn + addonsSum).toFixed(2);
+        const totalMultiplierRate = +(qualObj.rate + densityRate).toFixed(4);
+        const multiplierAmount = +(subtotalS * totalMultiplierRate).toFixed(2);
+        unitFinalAUD = +(subtotalS * (1 + totalMultiplierRate)).toFixed(2);
+
+        eqBox.textContent = `S (${fmtAUD(subtotalS)}) × (1 + ${Math.round(qualObj.rate * 100)}% + ${Math.round(densityRate * 100)}%) = ${fmtAUD(unitFinalAUD)}`;
+
+        linesBox.innerHTML = `
+          <div class="flex justify-between">
+            <span class="text-slate-300">${lang === 'ko-KR' ? '맞춤 시작 기본가 (Starting Base)' : 'Starting Base Price'}</span>
+            <span class="font-mono-code font-semibold text-white">${fmtAUD(STARTING_BASE_PRICE_AUD)}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-300">${lang === 'ko-KR' ? baseObj.koName : baseObj.enName}</span>
+            <span class="font-mono-code text-slate-200">+${fmtAUD(baseObj.addOn)}</span>
+          </div>
+          ${customState.silkTop ? `
+            <div class="flex justify-between text-teal-300">
+              <span>${lang === 'ko-KR' ? '실크탑 / 스킨 인젝션 업그레이드' : 'Silk Top / Injection Upgrade'}</span>
+              <span class="font-mono-code font-semibold">+${fmtAUD(silkAddOn)}</span>
+            </div>
+          ` : ''}
+          <div class="flex justify-between">
+            <span class="text-slate-300">${lang === 'ko-KR' ? '모발 기장' : 'Hair Length'}: ${lenObj.label}</span>
+            <span class="font-mono-code text-slate-200">+${fmtAUD(lenObj.addOn)}</span>
+          </div>
+          ${selectedAddons.map(a => `
+            <div class="flex justify-between text-blue-200">
+              <span>+ ${lang === 'ko-KR' ? a.koName : a.enName}</span>
+              <span class="font-mono-code">+${fmtAUD(a.price)}</span>
+            </div>
+          `).join('')}
+        `;
+
+        multBox.innerHTML = `
+          <div class="flex justify-between font-bold text-blue-300 pb-1">
+            <span>${lang === 'ko-KR' ? '1단계: 고정 옵션 합산 소계 (Subtotal S)' : 'Step 1: Fixed Options Subtotal (S)'}</span>
+            <span class="font-mono-code">${fmtAUD(subtotalS)}</span>
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>${lang === 'ko-KR' ? '모질 할증' : 'Hair Quality'}: ${lang === 'ko-KR' ? qualObj.koName : qualObj.enName} (${qualObj.rateText})</span>
+            <span class="font-mono-code">+${fmtAUD(subtotalS * qualObj.rate)}</span>
+          </div>
+          <div class="flex justify-between text-slate-300">
+            <span>${lang === 'ko-KR' ? '밀도 할증' : 'Hair Density'}: ${lang === 'ko-KR' ? densObj.koName : densObj.enName} (+${Math.round(densityRate * 100)}%)</span>
+            <span class="font-mono-code">+${fmtAUD(subtotalS * densityRate)}</span>
+          </div>
+          <div class="flex justify-between text-amber-300 font-semibold pt-1">
+            <span>${lang === 'ko-KR' ? '2단계: 비율 할증 합계' : 'Step 2: Combined Multiplier'} (+${Math.round(totalMultiplierRate * 100)}%)</span>
+            <span class="font-mono-code">+${fmtAUD(multiplierAmount)}</span>
+          </div>
+        `;
+      }
+
+      // Role Account Discount & Quantity
+      const discountPerUnit = +(unitFinalAUD * (discountRate / 100)).toFixed(2);
+      const netUnitAUD = +(unitFinalAUD - discountPerUnit).toFixed(2);
+      const grandTotalAUD = +(netUnitAUD * qty).toFixed(2);
+
+      document.getElementById('valRoleDiscountAmount').textContent = `-${fmtAUD(discountPerUnit * qty)}`;
+      document.getElementById('valUnitPriceFinal').textContent = fmtAUD(netUnitAUD);
+      document.getElementById('valGrandTotalFinal').textContent = fmtAUD(grandTotalAUD);
+    }
+
+    function copyQuoteSummary() {
+      const unitTxt = document.getElementById('valUnitPriceFinal').textContent;
+      const totalTxt = document.getElementById('valGrandTotalFinal').textContent;
+      const eqTxt = document.getElementById('liveFormulaEquation').textContent;
+      const qty = document.getElementById('quoteQty').value;
+      const summary = `[David Hair Factory Official AUD Quote]\nFormula: ${eqTxt}\nUnit Price: ${unitTxt} | Qty: ${qty} | Total: ${totalTxt}`;
+      navigator.clipboard.writeText(summary);
+      const toast = document.getElementById('copyToast');
+      toast.textContent = JoomoonApp.getLang() === 'ko-KR'
+        ? '✓ 공식 AUD 견적 요약이 클립보드에 복사되었습니다.'
+        : '✓ Official AUD Quote Summary copied to clipboard.';
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3000);
+    }
+
+    // =========================================================================
+    // 6. FULL REFERENCE TABLES RENDERER (Section 2 & 3 of hair_aud_en.md / hair_aud.md)
+    // =========================================================================
+    function renderReferenceTables() {
+      const lang = JoomoonApp.getLang();
+      document.getElementById('refTablesHeading').textContent = lang === 'ko-KR'
+        ? '데이비드 헤어 공장 남·여 가발 공식 단가표 전문 및 비교표 (호주 달러 AUD 전용)'
+        : 'David Hair Factory Official Reference Pricing Tables & Men\'s vs. Women\'s Matrix (AUD)';
+      document.getElementById('refTablesSub').textContent = lang === 'ko-KR'
+        ? '기준 문서: hair_aud.md / hair_aud_en.md (적용 환율: 1 USD = 1.4632 AUD)'
+        : 'Source: hair_aud_en.md & hair_aud.md (Exchange Rate Basis: 1 USD = 1.4632 AUD)';
+
+      const box = document.getElementById('referenceTablesContent');
+      box.innerHTML = `
+        <!-- Table 1: Men's vs Women's Key Pricing Differences -->
+        <div class="space-y-3">
+          <h3 class="text-sm font-bold text-[#1E3A5F] uppercase tracking-wider">
+            ${lang === 'ko-KR' ? '1. 남성 가발 vs 여성 가발 가격 산정 핵심 차이점' : '1. Key Pricing Differences: Men\'s Systems vs. Women\'s Toppers & Wigs'}
+          </h3>
+          <div class="overflow-x-auto border border-slate-200 rounded-lg">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-[#F8FAFC] border-b border-slate-200 text-[11px] font-bold uppercase text-slate-600">
+                  <th class="py-2.5 px-4">${lang === 'ko-KR' ? '구분 항목' : 'Factor'}</th>
+                  <th class="py-2.5 px-4">${lang === 'ko-KR' ? '남성 가발 (Men\'s Toupee)' : 'Men\'s Hair Systems'}</th>
+                  <th class="py-2.5 px-4">${lang === 'ko-KR' ? '여성 가발 (Women\'s Topper & Full Wig)' : 'Women\'s Toppers & Full Cap Wigs'}</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200">
+                <tr>
+                  <td class="py-2.5 px-4 font-semibold">${lang === 'ko-KR' ? '주요 제품 형태' : 'Primary Product Types'}</td>
+                  <td class="py-2.5 px-4">${lang === 'ko-KR' ? '상단 부분 가발 (Top-of-head Toupee), M자 프론탈' : 'Top-of-head Partial Systems (Toupees), Frontal Pieces'}</td>
+                  <td class="py-2.5 px-4">${lang === 'ko-KR' ? '정수리 볼륨 탑퍼 (Crown Topper) 및 전체 가발 (Full Cap Wig)' : 'Crown Volume Toppers & Full Cap Wigs'}</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-semibold">${lang === 'ko-KR' ? '베이스 면적 (Base Size)' : 'Base Size Area'}</td>
+                  <td class="py-2.5 px-4 font-mono-code">7"×9", 8"×10" (56 ~ 80 sq in)</td>
+                  <td class="py-2.5 px-4 font-mono-code">Topper 5"×6"~9"×10" / Full Cap (> 100 sq in, +AUD $292.64)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-semibold">${lang === 'ko-KR' ? '기본 모발 기장 (Hair Length)' : 'Standard Hair Length'}</td>
+                  <td class="py-2.5 px-4">${lang === 'ko-KR' ? '5"~6" 기본 포함 (+AUD $0.00)' : '5"–6" Included (+AUD $0.00)'}</td>
+                  <td class="py-2.5 px-4">${lang === 'ko-KR' ? '12"~20" 장발 위주 (+AUD $160.95 ~ +$702.34 비중 큼)' : '12"–20" Long Hair (+AUD $160.95 to +$702.34)'}</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-semibold">${lang === 'ko-KR' ? '정수리 구조 및 고정 방식' : 'Parting & Attachment'}</td>
+                  <td class="py-2.5 px-4">${lang === 'ko-KR' ? '싱글 레이스/스킨 + 테이프/본드 부착 (+AUD $0.00)' : 'Single Lace/Skin + Tape/Liquid Adhesive (+AUD $0.00)'}</td>
+                  <td class="py-2.5 px-4">${lang === 'ko-KR' ? '실크탑(Silk Top, +AUD $87.79) + 똑딱이 클립(+AUD $21.95)' : 'Silk Top (+AUD $87.79) + Pressure Clips (+AUD $21.95)'}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Table 2: Stock Systems Reference Table -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <h3 class="text-sm font-bold text-[#1E3A5F] uppercase tracking-wider">
+              ${lang === 'ko-KR' ? '2.1 남성 기성 가발 단가표 (Men\'s Stock Systems)' : '2.1 Men\'s Stock Hair Systems (AUD)'}
+            </h3>
+            <div class="overflow-x-auto border border-slate-200 rounded-lg">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-[#F8FAFC] border-b border-slate-200 text-[11px] font-bold uppercase text-slate-600">
+                    <th class="py-2 px-3">${lang === 'ko-KR' ? '모델 분류' : 'Category / Model'}</th>
+                    <th class="py-2 px-3 text-right">${lang === 'ko-KR' ? '단가 (AUD)' : 'Price Range (AUD)'}</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  ${STOCK_MODELS.men.map(m => `
+                    <tr>
+                      <td class="py-2 px-3 font-medium">${lang === 'ko-KR' ? m.koName : m.enName}</td>
+                      <td class="py-2 px-3 text-right font-mono-code font-bold text-[#1E3A5F]">${fmtAUD(m.min)} ~ ${fmtAUD(m.max)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <h3 class="text-sm font-bold text-teal-800 uppercase tracking-wider">
+              ${lang === 'ko-KR' ? '2.2 여성 기성 가발 단가표 (Women\'s Stock Toppers & Wigs)' : '2.2 Women\'s Stock Toppers & Full Wigs (AUD)'}
+            </h3>
+            <div class="overflow-x-auto border border-slate-200 rounded-lg">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-[#F8FAFC] border-b border-slate-200 text-[11px] font-bold uppercase text-slate-600">
+                    <th class="py-2 px-3">${lang === 'ko-KR' ? '모델 분류' : 'Category / Model'}</th>
+                    <th class="py-2 px-3 text-right">${lang === 'ko-KR' ? '단가 (AUD)' : 'Price Range (AUD)'}</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  ${STOCK_MODELS.women.map(m => `
+                    <tr>
+                      <td class="py-2 px-3 font-medium">${lang === 'ko-KR' ? m.koName : m.enName}</td>
+                      <td class="py-2 px-3 text-right font-mono-code font-bold text-teal-800">${fmtAUD(m.min)} ~ ${fmtAUD(m.max)}${m.id === 'w_fullwig' ? '+' : ''}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAll() {
+      renderSidebarAndHeader();
+      renderModeTabs();
+      renderPresets();
+      renderCustomControls();
+      renderStockControls();
+      renderReferenceTables();
+      recalculate();
+    }
+
+    async function loadDemoSwitcherOptions() {
+      const res = await fetch('api_auth.php?action=demo_accounts');
+      const data = await res.json();
+      if (data.ok && data.accounts) {
+        const sel = document.getElementById('quickAccountSelect');
+        sel.innerHTML = data.accounts.map(a => `
+          <option value="${a.login_id}" ${currentUser && currentUser.login_id === a.login_id ? 'selected' : ''}>
+            [${a.user_type}] ${a.user_code} · ${a.company_name || a.manager_name}
+          </option>
+        `).join('');
+      }
+    }
+
+    async function initPage() {
+      const meRes = await fetch('api_auth.php?action=me');
+      const meData = await meRes.json();
+      if (!meData.ok || !meData.authenticated) {
+        window.location.href = 'index.html';
+        return;
+      }
+      currentUser = meData.user;
+      await loadDemoSwitcherOptions();
+      renderAll();
+    }
+
+    initPage();
+  </script>
+</body>
+</html>

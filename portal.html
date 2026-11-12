@@ -143,6 +143,11 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3 shrink-0">
+          <a href="calculation.html"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold shadow-sm transition-colors">
+            <span class="material-symbols-outlined text-[18px]">calculate</span>
+            <span id="bannerCalcText">Calculation (AUD Quote)</span>
+          </a>
           <a href="users.html" id="bannerActionBtn"
             class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#1E3A5F] hover:bg-[#0F172A] text-white text-sm font-semibold shadow-sm transition-colors">
             <span class="material-symbols-outlined text-[18px]">edit_square</span>
@@ -161,7 +166,7 @@
         <div class="flex items-center justify-between">
           <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500" data-i18n="landingQuickActions">ROLE WORKSPACE MODULES</h2>
         </div>
-        <div id="roleModulesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div id="roleModulesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Populated dynamically for Manager, Buyer, or Customer -->
         </div>
       </section>
@@ -254,6 +259,10 @@
       const actionText = isMgr ? JoomoonApp.t('btnGoUsers') : JoomoonApp.t('btnGoMyProfile');
       document.getElementById('topPrimaryActionText').textContent = actionText;
       document.getElementById('bannerActionText').textContent = actionText;
+      const calcBtnEl = document.getElementById('bannerCalcText');
+      if (calcBtnEl) {
+        calcBtnEl.textContent = JoomoonApp.t('menu_mgr_calc');
+      }
 
       document.getElementById('bannerRoleBadge').textContent = JoomoonApp.t('role_' + u.user_type);
       document.getElementById('bannerBusinessNo').textContent = u.business_number || (u.user_type === 'Customer' ? 'Personal Account / 개인고객' : 'No ABN/BRN');
@@ -317,6 +326,27 @@
         `;
       }
 
+      const calcCardHtml = `
+        <a href="calculation.html" class="bg-white border-2 border-teal-700 rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="material-symbols-outlined text-teal-700 text-2xl">calculate</span>
+              <span class="font-mono-code text-[11px] px-2 py-0.5 rounded bg-teal-700 text-white">AUD QUOTE</span>
+            </div>
+            <h3 class="text-base font-bold text-[#0F172A]">${JoomoonApp.t('menu_mgr_calc')}</h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              ${lang === 'ko-KR'
+                ? '데이비드 헤어 공장 남·여 기성 및 맞춤 가발(탑퍼·풀캡 통가발) 호주 달러(AUD) 공식 단가표 및 실시간 견적 계산기입니다.'
+                : 'Interactive AUD quote calculator for Men\'s & Women\'s Stock Systems, Custom Toppers, and Full Cap Wigs (1 USD = 1.4632 AUD).'}
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 text-xs font-semibold text-teal-700 flex items-center justify-between">
+            <span>${lang === 'ko-KR' ? '견적 계산기 열기 (AUD)' : 'Open AUD Quote Calculator'}</span>
+            <span>→</span>
+          </div>
+        </a>
+      `;
+
       // Role Workspace Cards
       if (isMgr) {
         document.getElementById('roleModulesGrid').innerHTML = `
@@ -338,6 +368,8 @@
               <span>→</span>
             </div>
           </a>
+
+          ${calcCardHtml}
 
           <a href="users.html?filter=Buyer" class="bg-white border border-[#E2E8F0] hover:border-[#1E3A5F] rounded-xl p-5 shadow-sm transition-all flex flex-col justify-between">
             <div>
@@ -398,6 +430,8 @@
               <span>→</span>
             </div>
           </a>
+
+          ${calcCardHtml}
 
           <a href="users.html#section-shipping" class="bg-white border border-[#E2E8F0] hover:border-[#1E3A5F] rounded-xl p-5 shadow-sm transition-all flex flex-col justify-between">
             <div>

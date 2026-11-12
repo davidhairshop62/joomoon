@@ -140,3 +140,4 @@ Multiply the fixed subtotal ($S$) by the sum of the applicable percentage rates 
 5. **Women's Premium Virgin Hair Long Full Cap Wig (Flagship Specification)**
    * Specs: Full Cap Base (+AUD \$292.64), 18" Length (+AUD \$556.02), Virgin Hair (+70%), 140% Heavy Density (+35%)
    * Calculation: $(\text{AUD \$510.66} + \text{AUD \$292.64} + \text{AUD \$556.02}) \times (1 + 0.70 + 0.35) = \text{AUD \$1,359.32} \times 2.05 = \mathbf{\text{AUD \$2,786.61}}$
+
